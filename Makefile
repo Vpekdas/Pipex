@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/13 15:43:17 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/15 15:10:38 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIGHT_PURPLE=\033[1;35m
 
 NAME = pipex
 
-SOURCES =
+SOURCES = main.c
 
 LIBFT_PATH = Libft
 
