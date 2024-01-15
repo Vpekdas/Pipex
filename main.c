@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/15 17:20:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:31:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,12 @@ int	main(int ac, char **av, char **envp)
 		waitpid(pid, NULL, 0);
 	}
 }
+
+// TODO: Create a function that parse the command and return path
+// TODO: Modify the child process code to use the new function
+// TODO: Handle multiple commands
+// TODO: Handle redirections
+// TODO: Handle errors
+// TODO: handle commands with arguments
+// TODO: handle pipes
+// TODO: free all mallocs
