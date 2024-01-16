@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   checking_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/15 13:47:16 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/16 17:11:52 by vopekdas         ###   ########.fr       */
+/*   Created: 2024/01/16 17:08:31 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/01/16 17:13:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
+#include "pipex.h"
+#include <sys/types.h>
 
-# define PIPEX_H
+int	checking_errors_pid(pid_t pid)
+{
+	if (pid == -1)
+	{
+		perror("fork");
+		return (2);	
+	}
+	return (0);
+}
 
-# include "Libft/libft.h"
-# include "ft_printf/include/ft_printf.h"
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <stdio.h>
-
-char	**ft_get_path(char **env);
-char	*ft_create_path(int ac, char *command, char **envp);
-int		checking_errors_pid(pid_t pid);
-int		checking_errors_pipe(int pipe);
-#endif 
+int	checking_errors_pipe(int pipe)
+{
+	if (pipe == -1)
+	{
+		perror("pipe");
+		return (1);
+	}
+	return (0);
+}
