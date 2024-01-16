@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/16 17:15:47 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:25:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,5 @@ int	main(int ac, char **av, char **envp)
 // TODO: Handle infile and outfile
 // TODO: Handle redirections
 // TODO: Handle errors
-// TODO: handle commands with arguments
 // TODO: handle multiple pipes
 // TODO: free all mallocs
