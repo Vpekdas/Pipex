@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/16 15:44:57 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:02:37 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	main(int ac, char **av, char **envp)
 	pid_t	pid;
 	pid_t	pid2;
 	int		fd[2];
-	char	*cmd1;
-	char	*cmd2;
-	char	**args;
-	char	**args2;
-	char	*new_path;
+	char	*cmd1 = NULL;
+	char	*cmd2 = NULL;
+	char	**args = NULL;
+	char	**args2 = NULL;
 
-	(void)ac;
+	if (ac < 2)
+		return (0);
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
@@ -83,8 +83,8 @@ int	main(int ac, char **av, char **envp)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		cmd1 = ft_strdup("/bin/ls");
-		args = ft_split("ls -l", ' ');
+		args = ft_split(av[1], ' ');
+		cmd1 = ft_create_path(ac, args[0], envp);
 		execve(cmd1, args, NULL);
 	}
 	pid2 = fork();
@@ -98,8 +98,8 @@ int	main(int ac, char **av, char **envp)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		cmd2 = ft_strdup("/usr/bin/grep");
-		args2 = ft_split("grep main", ' ');
+		args2 = ft_split(av[2], ' ');
+		cmd2 = ft_create_path(ac, args2[0], envp);
 		execve(cmd2, args2, NULL);
 	}
 	else // parent
@@ -108,8 +108,6 @@ int	main(int ac, char **av, char **envp)
 		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
-	new_path = ft_create_path(ac, av[1], envp);
-	ft_printf("new_path: %s\n", new_path);
 }
 
 
