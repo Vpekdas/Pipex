@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:07:10 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/16 17:07:38 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:39:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ char	**ft_get_path(char **env)
 	return (path);
 }
 
-char	*ft_create_path(int ac, char *command, char **envp)
+char	*ft_create_path(char *command, char **envp)
 {
 	char 	**path;
 	char	*new_path;
 
 	path = NULL;
 	path = ft_get_path(envp);
-	(void)ac;
 	while (*path)
 	{
 		new_path = *path;
