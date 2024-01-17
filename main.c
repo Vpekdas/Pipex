@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/17 13:50:42 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/17 15:35:59 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <sys/wait.h>
 #include <unistd.h>
 
 int	main(int ac, char **av, char **envp)
@@ -40,7 +41,7 @@ int	main(int ac, char **av, char **envp)
 		close(fd[1]);
 		args = ft_split(av[2], ' ');
 		cmd1 = ft_create_path(ac, args[0], envp);
-		execve(cmd1, args, NULL);
+		execve(cmd1, args, envp);
 	}
 	pid2 = fork();
 	if (checking_errors_pid(pid2))
@@ -54,7 +55,7 @@ int	main(int ac, char **av, char **envp)
 		close(fd[0]);
 		args2 = ft_split(av[3], ' ');
 		cmd2 = ft_create_path(ac, args2[0], envp);
-		execve(cmd2, args2, NULL);
+		execve(cmd2, args2, envp);
 	}
 	else // parent
 	{
@@ -62,10 +63,10 @@ int	main(int ac, char **av, char **envp)
 		close(fd[0]);
 		close(infile);
 		close(outfile);
+		waitpid(pid, NULL, 0);
 	}
 }
 
-// TODO: Handle infile and outfile
 // TODO: Handle redirections
 // TODO: Handle errors
 // TODO: handle multiple pipes
