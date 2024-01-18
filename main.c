@@ -6,24 +6,28 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/18 15:42:35 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:12:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <unistd.h>
 
+void	ft_execute_commands(char *av, char **envp)
+{
+	char	**cmd;
+	char	*path;
 
+	cmd = NULL;
+	cmd = ft_split(av, ' ');
+	path = ft_create_path(cmd[0], envp);
+	execve(path, cmd, envp);
+}
 
 int	main(int ac, char **av, char **envp)
 {
 	pid_t	pid;
 	pid_t	pid2;
 	int		fd[2];
-	char	*cmd1 = NULL;
-	char	*cmd2 = NULL;
-	char	**args = NULL;
-	char	**args2 = NULL;
 	int		infile = open(av[1], O_RDONLY);
 	int		outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
@@ -38,9 +42,7 @@ int	main(int ac, char **av, char **envp)
 			close(infile);
 			dup2(fd[1], STDOUT_FILENO); // write on pipe
 			close(fd[1]);
-			args = ft_split(av[2], ' ');
-			cmd1 = ft_create_path(args[0], envp);
-			execve(cmd1, args, envp);
+			ft_execute_commands(av[2], envp);
 		}
 		pid2 = fork();
 		if (pid2 == 0) // child 2
@@ -50,9 +52,7 @@ int	main(int ac, char **av, char **envp)
 			close(outfile);
 			dup2(fd[0], STDIN_FILENO); // read in pipe instead of STDIN
 			close(fd[0]);
-			args2 = ft_split(av[3], ' ');
-			cmd2 = ft_create_path(args2[0], envp);
-			execve(cmd2, args2, envp);
+			ft_execute_commands(av[3], envp);
 		}
 		else // parent
 		{
