@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:07:10 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/17 17:39:08 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:42:54 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ char	**ft_get_path(char **env)
 		if (ft_strncmp(*env, "PATH=", 5) == 0)
 		{
 			path = ft_split(*env + 5, ':');
-			break ;
+			return (path);
 		}
 		env++;
 	}
-	return (path);
+	return (NULL);
 }
 
 char	*ft_create_path(char *command, char **envp)

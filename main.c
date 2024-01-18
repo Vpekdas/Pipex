@@ -6,13 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/17 18:11:25 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:56:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 int	main(int ac, char **av, char **envp)
 {
@@ -23,17 +21,13 @@ int	main(int ac, char **av, char **envp)
 	char	*cmd2 = NULL;
 	char	**args = NULL;
 	char	**args2 = NULL;
-	int		infile = open("infile.txt", O_RDONLY);
-	int		outfile = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int		infile = open(av[1], O_RDONLY);
+	int		outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-	if (ac >= 5)
+	if (ac > 4)
 	{
 		pipe(fd);
-		if (checking_errors_pipe(fd[0]) || checking_errors_pipe(fd[1]))
-			return (1);
 		pid = fork();
-		if (checking_errors_pid(pid))
-			return (2);
 		if (pid == 0) // child 1
 		{
 			close(fd[0]);
@@ -46,8 +40,6 @@ int	main(int ac, char **av, char **envp)
 			execve(cmd1, args, envp);
 		}
 		pid2 = fork();
-		if (checking_errors_pid(pid2))
-			return (2);
 		if (pid2 == 0) // child 2
 		{
 			close(fd[1]);
@@ -70,6 +62,8 @@ int	main(int ac, char **av, char **envp)
 		}
 	}
 }
+
+// TODO: Checking errors
 // TODO: handle multiple pipes
 // TODO: Handle redirections
 // TODO: Handle errors
