@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/18 17:33:49 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:37:39 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	main(int ac, char **av, char **envp)
 		if (pid == 0) // child 1
 		{
 			close(fd[0]);
-			dup2(infile, STDIN_FILENO); // read in infile instead of STDIN, it duplicates infile in STDIN
+			dup2(infile, STDIN_FILENO); // it duplicates infile in STDIN, so we read infile.
 			close(infile);
-			dup2(fd[1], STDOUT_FILENO); // write on pipe. It duplicates pipe entry in STDOUT
+			dup2(fd[1], STDOUT_FILENO); // It duplicates pipe entry in STDOUT, so we are writing in pipes.
 			close(fd[1]);
 			ft_execute_commands(av[2], envp);
 		}
@@ -48,9 +48,9 @@ int	main(int ac, char **av, char **envp)
 		if (pid2 == 0) // child 2
 		{
 			close(fd[1]);
-			dup2(outfile, STDOUT_FILENO); // write in outfile instead of STDOUT. It duplicates outfile in STDOUT
+			dup2(outfile, STDOUT_FILENO); // It duplicates outfile in STDOUT, sso we will write in outfile.
 			close(outfile);
-			dup2(fd[0], STDIN_FILENO); // read in pipe instead of STDIN. It duplicates pipe out in STDIN.
+			dup2(fd[0], STDIN_FILENO); // It duplicates pipe out in STDIN. So we read the pipe out.
 			close(fd[0]);
 			ft_execute_commands(av[3], envp);
 		}
