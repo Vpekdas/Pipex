@@ -12,6 +12,10 @@
 
 #include "pipex.h"
 
+int		ft_execute_first_command(char *av, char **envp, int infile);
+int		ft_execite_middle_command(char *av, char **envp, int pipe_in);
+void	ft_execute_last_command(char *av, char **envp, int pipe_in, int outfile);
+
 void	ft_execute_commands(char *av, char **envp)
 {
 	char	**cmd;
