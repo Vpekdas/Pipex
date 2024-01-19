@@ -6,15 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/18 17:44:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:23:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int		ft_execute_first_command(char *av, char **envp, int infile);
-int		ft_execite_middle_command(char *av, char **envp, int pipe_in);
-void	ft_execute_last_command(char *av, char **envp, int pipe_in, int outfile);
 
 void	ft_execute_commands(char *av, char **envp)
 {
@@ -27,47 +24,88 @@ void	ft_execute_commands(char *av, char **envp)
 	execve(path, cmd, envp);
 }
 
-int	main(int ac, char **av, char **envp)
-{
-	pid_t	pid;
-	pid_t	pid2;
-	int		fd[2];
-	int		infile = open(av[1], O_RDONLY);
-	int		outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-	if (ac > 4)
+int	ft_execute_first_command(char *av, char **envp, int infile)
+{
+	int	fd[2];
+	int	pid;
+
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
 	{
-		pipe(fd);
-		pid = fork();
-		if (pid == 0) // child 1
-		{
-			close(fd[0]);
-			dup2(infile, STDIN_FILENO); // it duplicates infile in STDIN, so we read infile.
-			close(infile);
-			dup2(fd[1], STDOUT_FILENO); // It duplicates pipe in STDOUT, so we are writing in pipe.
-			close(fd[1]);
-			ft_execute_commands(av[2], envp);
-		}
-		pid2 = fork();
-		if (pid2 == 0) // child 2
-		{
-			close(fd[1]);
-			dup2(fd[0], STDIN_FILENO); // It duplicates pipe out in STDIN. So we read the pipe.
-			close(fd[0]);
-			dup2(outfile, STDOUT_FILENO); // It duplicates outfile in STDOUT, sso we will write in outfile.
-			close(outfile);
-			ft_execute_commands(av[3], envp);
-		}
-		else // parent
-		{
-			close(fd[0]);
-			close(fd[1]);
-			close(infile);
-			close(outfile);
-			waitpid(pid, NULL, 0);
-			waitpid(pid2, NULL, 0);
-		}
+		close(fd[0]);
+		dup2(infile, STDIN_FILENO);
+		close(infile);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		ft_execute_commands(av, envp);
 	}
+	else
+		close(fd[1]);
+	return (fd[0]);
+}
+
+void	ft_execute_last_command(char *av, char **envp, int pipe_in, int outfile)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(pipe_in, STDIN_FILENO);
+		close(pipe_in);
+		dup2(outfile, STDOUT_FILENO);
+		close(outfile);
+		ft_execute_commands(av, envp);
+	}
+	else
+		close(pipe_in);
+}
+
+int		ft_execute_middle_command(char *av, char **envp, int pipe_in)
+{
+	int	fd[2];
+	int	pid;
+
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(pipe_in, STDIN_FILENO);
+		close(pipe_in);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		ft_execute_commands(av, envp);
+	}
+	else
+	{
+		close(fd[1]);
+		close(pipe_in);
+	}
+	return (fd[0]);
+}
+
+int main(int ac, char **av, char **envp)
+{
+	int infile = open(av[1], O_RDONLY);
+	int	outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int	new_pipe;
+	int	pipe;
+
+	for (int i = 2; i < ac - 1; i++)
+	{
+		if (i == 2)
+			new_pipe = ft_execute_first_command(av[i], envp, infile);
+		else if (i == ac - 2)
+			ft_execute_last_command(av[i], envp, pipe, outfile);
+		else
+			new_pipe = ft_execute_middle_command(av[i], envp, pipe);
+		pipe = new_pipe;
+	}
+	while (wait(NULL) > 0);
+	return 0;
 }
 
 // TODO: Checking errors
