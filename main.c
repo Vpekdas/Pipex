@@ -6,11 +6,18 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 18:09:40 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 18:17:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_close_end(int pipe_in, int outfile, int pipe)
+{
+	close(pipe_in);
+	close(outfile);
+	close(pipe);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -20,7 +27,6 @@ int	main(int ac, char **av, char **envp)
 	int	i;
 
 	i = 2;
-	pipe = 0;
 	infile = open(av[1], O_RDONLY);
 	outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (ac > 4 && infile != -1 && outfile != -1)
@@ -37,9 +43,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		while (wait(NULL) > 0)
 			;
-		close(pipe);
-		close(infile);
-		close(outfile);
+		ft_close_end(pipe, outfile, infile);
 	}
 	return (0);
 }
