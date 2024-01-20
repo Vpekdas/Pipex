@@ -6,18 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 18:17:13 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 18:18:43 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	ft_close_end(int pipe_in, int outfile, int pipe)
-{
-	close(pipe_in);
-	close(outfile);
-	close(pipe);
-}
 
 int	main(int ac, char **av, char **envp)
 {
