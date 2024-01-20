@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 17:18:12 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 18:09:40 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	main(int ac, char **av, char **envp)
 		}
 		while (wait(NULL) > 0)
 			;
+		close(pipe);
+		close(infile);
+		close(outfile);
 	}
 	return (0);
 }

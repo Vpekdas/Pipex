@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 17:18:15 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:53:32 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <unistd.h>
 
 int	ft_exec_cmd(char *av, char **envp)
 {
@@ -57,13 +58,14 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, int outfile)
 	pid = fork();
 	if (pid == -1)
 		return (ft_check_fork());
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		dup2(pipe_in, STDIN_FILENO);
 		close(pipe_in);
 		dup2(outfile, STDOUT_FILENO);
 		close(outfile);
 		ft_exec_cmd(av, envp);
+		exit(0);
 	}
 	else
 		close(pipe_in);
@@ -80,7 +82,7 @@ int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 	pid = fork();
 	if (pid == -1)
 		return (ft_check_fork());
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(pipe_in, STDIN_FILENO);
