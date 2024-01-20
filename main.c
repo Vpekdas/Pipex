@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 16:44:38 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:16:16 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,24 +101,23 @@ int	main(int ac, char **av, char **envp)
 {
 	int	infile;
 	int	outfile;
-	int	new_pipe;
 	int	pipe;
 	int	i;
 
 	i = 2;
+	pipe = 0;
 	infile = open(av[1], O_RDONLY);
 	outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (ac > 4 && infile != -1 && outfile != -1)
 	{
-		while (i < ac - 1 && new_pipe != -1)
+		while (i < ac - 1 && pipe != -1)
 		{
 			if (i == 2)
-				new_pipe = ft_exec_first_cmd(av[i], envp, infile);
+				pipe = ft_exec_first_cmd(av[i], envp, infile);
 			else if (i == ac - 2)
-				new_pipe = ft_exec_last_cmd(av[i], envp, pipe, outfile);
+				pipe = ft_exec_last_cmd(av[i], envp, pipe, outfile);
 			else
-				new_pipe = ft_exec_middle_cmd(av[i], envp, pipe);
-			pipe = new_pipe;
+				pipe = ft_exec_middle_cmd(av[i], envp, pipe);
 			i++;
 		}
 		while (wait(NULL) > 0)
