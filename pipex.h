@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:16 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 15:36:07 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:43:00 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,9 @@ char	*ft_create_path(char *command, char **envp);
 int		ft_check_pipe(void);
 int		ft_check_fork(void);
 int		ft_check_execve(void);
+int		ft_execute_commands(char *av, char **envp);
+int		ft_exec_first_cmd(char *av, char **envp, int infile);
+int		ft_exec_last_cmd(char *av, char **envp, int pipe_in, int outfile);
+int		ft_exec_middle_cmd(char *av, char **envp, int pipe_in);
 
 #endif 

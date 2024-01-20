@@ -6,14 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 16:25:43 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:44:38 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <sys/types.h>
 
-int	ft_execute_commands(char *av, char **envp)
+int	ft_exec_cmd(char *av, char **envp)
 {
 	char	**cmd;
 	char	*path;
@@ -24,7 +23,7 @@ int	ft_execute_commands(char *av, char **envp)
 	return (execve(path, cmd, envp));
 }
 
-int	ft_execute_first_command(char *av, char **envp, int infile)
+int	ft_exec_first_cmd(char *av, char **envp, int infile)
 {
 	int	fd[2];
 	int	pid;
@@ -42,7 +41,7 @@ int	ft_execute_first_command(char *av, char **envp, int infile)
 		close(infile);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		result = ft_execute_commands(av, envp);
+		result = ft_exec_cmd(av, envp);
 		if (result == -1)
 			return (ft_check_execve());
 	}
@@ -51,7 +50,7 @@ int	ft_execute_first_command(char *av, char **envp, int infile)
 	return (fd[0]);
 }
 
-int	ft_execute_last_command(char *av, char **envp, int pipe_in, int outfile)
+int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, int outfile)
 {
 	int	pid;
 
@@ -64,14 +63,14 @@ int	ft_execute_last_command(char *av, char **envp, int pipe_in, int outfile)
 		close(pipe_in);
 		dup2(outfile, STDOUT_FILENO);
 		close(outfile);
-		ft_execute_commands(av, envp);
+		ft_exec_cmd(av, envp);
 	}
 	else
 		close(pipe_in);
 	return (0);
 }
 
-int	ft_execute_middle_command(char *av, char **envp, int pipe_in)
+int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 {
 	int	fd[2];
 	int	pid;
@@ -88,7 +87,7 @@ int	ft_execute_middle_command(char *av, char **envp, int pipe_in)
 		close(pipe_in);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		ft_execute_commands(av, envp);
+		ft_exec_cmd(av, envp);
 	}
 	else
 	{
@@ -96,19 +95,6 @@ int	ft_execute_middle_command(char *av, char **envp, int pipe_in)
 		close(pipe_in);
 	}
 	return (fd[0]);
-}
-pid_t	ft_wait(int *status)
-{
-	pid_t	pid;
-
-	pid = wait(status);
-	if (pid == -1)
-	{
-		perror("ERROR WAIT");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
-
 }
 
 int	main(int ac, char **av, char **envp)
@@ -127,11 +113,11 @@ int	main(int ac, char **av, char **envp)
 		while (i < ac - 1 && new_pipe != -1)
 		{
 			if (i == 2)
-				new_pipe = ft_execute_first_command(av[i], envp, infile);
+				new_pipe = ft_exec_first_cmd(av[i], envp, infile);
 			else if (i == ac - 2)
-				new_pipe = ft_execute_last_command(av[i], envp, pipe, outfile);
+				new_pipe = ft_exec_last_cmd(av[i], envp, pipe, outfile);
 			else
-				new_pipe = ft_execute_middle_command(av[i], envp, pipe);
+				new_pipe = ft_exec_middle_cmd(av[i], envp, pipe);
 			pipe = new_pipe;
 			i++;
 		}
