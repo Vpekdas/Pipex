@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/21 17:49:38 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:50:06 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 	{
 		dup2(pipe_in, STDIN_FILENO);
 		close(pipe_in);
-		outfile = open(outfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(outfile, STDOUT_FILENO);
 		close(outfile);
 		ft_exec_cmd(av, envp);
