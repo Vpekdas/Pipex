@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/20 18:19:12 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/21 17:10:29 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ SOURCES = main.c \
 		path_utils.c \
 		checking_errors.c \
 		exec_cmd_utils.c \
-		close_functions.c \
 
 LIBFT_PATH = Libft
 

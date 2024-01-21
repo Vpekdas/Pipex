@@ -6,10 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/20 17:53:32 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:45:55 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf/include/ft_printf.h"
 #include "pipex.h"
 #include <unistd.h>
 
@@ -46,15 +47,17 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 		if (result == -1)
 			return (ft_check_execve());
 	}
-	else
-		close(fd[1]);
+	close(fd[1]);
+	close(infile);
 	return (fd[0]);
 }
 
-int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, int outfile)
+int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *outfile_path)
 {
 	int	pid;
+	int	outfile;
 
+	outfile = 1;
 	pid = fork();
 	if (pid == -1)
 		return (ft_check_fork());
@@ -62,13 +65,13 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, int outfile)
 	{
 		dup2(pipe_in, STDIN_FILENO);
 		close(pipe_in);
+		outfile = open(outfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(outfile, STDOUT_FILENO);
 		close(outfile);
 		ft_exec_cmd(av, envp);
-		exit(0);
 	}
-	else
-		close(pipe_in);
+	close(pipe_in);
+	close(outfile);
 	return (0);
 }
 
@@ -91,10 +94,7 @@ int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 		close(fd[1]);
 		ft_exec_cmd(av, envp);
 	}
-	else
-	{
-		close(fd[1]);
-		close(pipe_in);
-	}
+	close(pipe_in);
+	close(fd[1]);
 	return (fd[0]);
 }
