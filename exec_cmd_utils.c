@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/21 17:45:55 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:49:38 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 	return (fd[0]);
 }
 
-int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *outfile_path)
+int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 {
 	int	pid;
 	int	outfile;
