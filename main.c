@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 13:42:00 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:58:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	main(int ac, char **av, char **envp)
 	pipe = 42;
 	infile = open(av[1], O_RDONLY);
 	outfile = av[ac - 1];
-	if (ac > 4 && infile != -1 && pipe != -1)
+	if (ac > 4 && infile != ERROR)
 	{
-		while (++i < ac - 1 && pipe != -1 && infile != -1)
+		while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
 		{
 			if (i == 2)
 				pipe = ft_exec_first_cmd(av[i], envp, infile);
