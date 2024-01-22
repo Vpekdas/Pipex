@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 16:01:48 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:05:45 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,18 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 	int	pid;
 
 	if (pipe(fd) == -1)
-		return (ft_perror_msg("PIPE ERROR"));
+		return (ft_perror_msg("PIPE ERROR IN FIRST CMD"));
 	pid = fork();
 	if (pid == -1)
-		return (ft_perror_msg("FORK ERROR"));
+		return (ft_perror_msg("FORK ERROR IN FIRST CMD"));
 	if (pid == 0)
 	{
 		close(fd[0]);
 		if (dup2(infile, STDIN_FILENO) == -1)
-			return (ft_perror_msg("DUP2 ERROR"));
+			return (ft_perror_msg("DUP2 ERROR IN FIRST CMD"));
 		close(infile);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			return (ft_perror_msg("DUP2 ERROR"));
+			return (ft_perror_msg("DUP2 ERROR IN FIRST CMD"));
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == -1)
 			return (-1);
@@ -73,17 +73,17 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 	outfile = 42;
 	pid = fork();
 	if (pid == -1)
-		return (ft_perror_msg("FORK ERROR"));
+		return (ft_perror_msg("FORK ERROR IN LAST CMD"));
 	if (pid == 0)
 	{
 		if (dup2(pipe_in, STDIN_FILENO) == -1)
-			return (ft_perror_msg("DUP2 ERROR"));
+			return (ft_perror_msg("DUP2 ERROR IN LAST CMD"));
 		close(pipe_in);
 		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile == -1)
-			return (ft_perror_msg("OPEN ERROR"));
+			return (ft_perror_msg("OPEN ERROR FOR OUTFILE"));
 		if (dup2(outfile, STDOUT_FILENO) == -1)
-			return (ft_perror_msg("DUP2 ERROR"));
+			return (ft_perror_msg("DUP2 ERROR IN LAST CMD"));
 		close(outfile);
 		if (ft_exec_cmd(av, envp) == -1)
 			return (-1);
