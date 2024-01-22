@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 16:58:24 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:00:20 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,4 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-// TODO: Handle redirections
-// TODO: free all mallocs
+// TODO: Handle here_doc
