@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:22:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 15:50:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:57:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int	ft_perror_msg(char *str)
 {
 	perror(str);
-	return (-1);
+	return (ERROR);
 }
 

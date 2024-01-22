@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:16 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 15:50:59 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:09:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <stdio.h>
+
+# define ERROR -1
 
 char	**ft_get_path(char **env);
 char	*ft_create_path(char *command, char **envp);
