@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/21 17:10:29 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/22 13:32:11 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,8 @@ NAME = pipex
 
 SOURCES = main.c \
 		path_utils.c \
-		checking_errors.c \
 		exec_cmd_utils.c \
+		free_functions.c \
 
 LIBFT_PATH = Libft
 

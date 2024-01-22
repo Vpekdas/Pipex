@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/21 18:05:51 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:10:57 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,22 @@ int	ft_exec_cmd(char *av, char **envp)
 
 	cmd = NULL;
 	cmd = ft_split(av, ' ');
+	if (!cmd)
+		return (-1);
 	path = ft_create_path(cmd[0], envp);
+	if (!path)
+	{
+		ft_free_split(cmd);
+		return (-1);
+	}
 	if (execve(path, cmd, envp) == -1)
-		return (ft_check_execve());
+	{
+		ft_free_split(cmd);
+		free(path);
+		return (-1);
+	}
+	ft_free_split(cmd);
+	free(path);
 	return (0);
 }
 
@@ -29,23 +42,23 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 {
 	int	fd[2];
 	int	pid;
-	int	result;
 
 	if (pipe(fd) == -1)
-		return (ft_check_pipe());
+		return (-1);
 	pid = fork();
 	if (pid == -1)
-		return (ft_check_fork());
+		return (-1);
 	if (pid == 0)
 	{
 		close(fd[0]);
-		dup2(infile, STDIN_FILENO);
+		if (dup2(infile, STDIN_FILENO) == -1)
+			return (-1);
 		close(infile);
-		dup2(fd[1], STDOUT_FILENO);
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			return (-1);
 		close(fd[1]);
-		result = ft_exec_cmd(av, envp);
-		if (result == -1)
-			exit(1);
+		if (ft_exec_cmd(av, envp) == -1)
+			return (-1);
 	}
 	close(fd[1]);
 	close(infile);
@@ -56,22 +69,24 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 {
 	int	pid;
 	int	outfile;
-	int result;
 
-	outfile = 1;
+	outfile = 42;
 	pid = fork();
 	if (pid == -1)
-		return (ft_check_fork());
+		return (-1);
 	if (pid == 0)
 	{
-		dup2(pipe_in, STDIN_FILENO);
+		if (dup2(pipe_in, STDIN_FILENO) == -1)
+			return (-1);
 		close(pipe_in);
 		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		dup2(outfile, STDOUT_FILENO);
+		if (outfile == -1)
+			return (-1);
+		if (dup2(outfile, STDOUT_FILENO) == -1)
+			return (-1);
 		close(outfile);
-		result = ft_exec_cmd(av, envp);
-		if (result == -1)
-			return (ft_check_execve());
+		if (ft_exec_cmd(av, envp) == -1)
+			return (-1);
 	}
 	close(pipe_in);
 	close(outfile);
@@ -82,23 +97,23 @@ int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 {
 	int	fd[2];
 	int	pid;
-	int	result;
 
 	if (pipe(fd) == -1)
-		return (ft_check_pipe());
+		return (-1);
 	pid = fork();
 	if (pid == -1)
-		return (ft_check_fork());
+		return (-1);
 	if (pid == 0)
 	{
 		close(fd[0]);
-		dup2(pipe_in, STDIN_FILENO);
+		if (dup2(pipe_in, STDIN_FILENO) == -1)
+			return (-1);
 		close(pipe_in);
-		dup2(fd[1], STDOUT_FILENO);
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			return (-1);
 		close(fd[1]);
-		result = ft_exec_cmd(av, envp);
-		if (result == -1)
-			return (ft_check_execve());
+		if (ft_exec_cmd(av, envp) == -1)
+			return (-1);
 	}
 	close(pipe_in);
 	close(fd[1]);
