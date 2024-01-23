@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 17:00:20 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:31:56 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	main(int ac, char **av, char **envp)
 	pipe = 42;
 	infile = open(av[1], O_RDONLY);
 	outfile = av[ac - 1];
-	if (ac > 4 && infile != ERROR)
+	if (ac > 4 && ft_strncmp(av[1], "here_doc", 8) == 0)
+		ft_exec_here_doc(av, envp, outfile);
+	else if (ac > 4 && infile != ERROR)
 	{
 		while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
 		{

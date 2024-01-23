@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/22 16:56:44 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/23 17:06:47 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 	if (pid == 0)
 	{
 		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR IN LAST CMD"));
+			return (ft_perror_msg("DUP2 ERROR IN LAST CMDTEST"));
 		close(pipe_in);
 		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile == ERROR)
