@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/24 15:14:13 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/24 15:22:14 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,6 +123,10 @@ ft_printf:
 	$(MAKE) -C $(FT_PRINTF_PATH)
 	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
 
+bonus: $(OBJECTS) libft ft_printf
+	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -LLibft -lft -Lft_printf -lftprintf 
+	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
 
 clean:
 	@echo "$(LIGHT_PURPLE)"
