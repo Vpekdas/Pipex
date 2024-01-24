@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/23 16:00:50 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/24 15:14:13 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,32 +45,80 @@ RM = rm -f
 .PHONY: all clean fclean re libft ft_printf
 
 all: libft ft_printf $(NAME)
+	@printf "$(LIGHT_YELLOW)⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠔⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠳⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠊⠀⠀⠀⢀⡀⠀⠀⠀⣄⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⢀⣶⣶⠀⠀⠀⢀⣤⣴⣄⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⡔⠁⢠⣴⣶⠀⢸⡀⠀⠀⢿⣿⡇⠀⢀⣴⣿⣿⣿⣦⠀⠀⠀⠉⣉⡀⠀⠀⢿⣿⣿⣿⣧⠀⠀⠀⣿⣿⣇⠀⠀⠀⠀⣀⣼⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⡸⠀⠀⠈⠙⠹⣄⣤⣤⣄⠀⠀⠀⠀⠀⠘⠿⣿⣿⣿⣿⠃⢀⣶⣿⣿⣿⣷⣤⠀⠉⠉⠛⢁⣀⣀⣀⠀⠉⠁⣰⣶⣦⡀⠻⢿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⢠⣷⣾⣿⣷⠀⣠⣿⣿⣿⣿⣷⣀⠀⢀⣤⣤⣤⣀⠉⠉⠀⠀⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⢰⣿⣿⣿⣿⣷⣦⠀⢿⣿⠿⠇⠀⠀⢿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⢸⠈⢻⠻⡏⠀⡋⢿⣿⣿⣿⠿⢻⢠⣿⣿⣿⣿⣿⣷⢀⣀⣤⠿⠿⠛⠛⠋⠉⠉⠛⠒⠲⠼⣿⣿⣿⣿⣿⣿⠇⠀⣠⣤⣶⣦⣄⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣶⡧⠀⠃⠀⢫⠉⢫⠀⠻⣸⣿⣿⣿⡿⠟⠛⠉⠁⠀⠀⠀⠀⠀⠀⢀⣀⣀⠤⠤⠤⢀⣈⣙⠿⢿⡋⠀⣼⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⢷⠀⢸⣾⣿⣿⣿⣷⡄⣀⡿⠛⢁⠀⢀⠀⠀⢀⠀⠤⠐⠂⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠈⠉⠈⠛⢷⠿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⢸⣿⠿⢏⠘⡆⢻⣿⣿⣿⣿⣿⡟⠉⠀⠔⡥⢂⡅⠐⠃⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⢧⣀⣸⣤⣽⡘⣿⣿⣿⣿⠟⠦⣦⡀⣠⠜⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⡇⠈⠛⠿⡏⢠⡄⠄⣴⠁⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⡄⠀⡀⠀⢠⠀⠸⠀⢰⠀⠀⡀⠀⠀⠀⢠⠠⠄⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⡇⣄⠣⠀⣇⢹⠇⡆⢻⠀⠀⠀⠀⠀⠀⠀⠀⣀⣸⡤⠷⠖⠛⠉⠉⠉⠉⠉⠒⠦⢤⣃⠀⠆⠀⡄⠀⠀⠀⠀⣠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣯⡴⠋⢁⣤⣿⣮⣑⠂⠘⣆⠀⠀⠀⣠⣴⠺⢭⣉⠀⠀⠀⠀⣀⡄⠀⢰⣀⡀⣀⣤⣔⣉⣩⣷⡦⣄⡉⠀⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠴⣿⣿⣿⣿⣿⣿⠲⠼⡶⣶⠟⠋⠉⢿⣿⡉⠙⢳⡖⢲⣉⠀⠀⣰⠋⡟⠉⠉⣿⡷⠀⢀⡿⣿⠋⠙⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⡿⢿⣿⣿⠀⠀⠈⢿⣄⣀⡀⡈⢉⢀⣀⡼⠁⠐⠚⠀⠀⢧⠀⠛⠶⣤⣤⣤⡴⠟⠁⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢉⡿⣰⣿⣿⣿⡄⠀⠀⠀⠈⠉⠉⠙⠉⠉⠁⠀⠀⠀⠀⠀⠀⠘⢧⡀⠀⠀⠀⠀⠀⠀⠈⠛⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣧⠉⣿⣿⢿⡷⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠈⣳⠀⠀⠀⠀⠀⠀⠀⠀⠀⢳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢹⣷⣯⠻⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢆⠀⠀⠀⠐⢡⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⢹⣷⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠴⠚⠋⠉⠉⠛⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠖⠛⠛⠓⢦⣀⡀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣾⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡏⠀⣠⠇⢸⠄⠀⠋⠀⠀⠀⠀⠀⠀⠀⢀⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀⢰⠏⠀⠀⠀⠀⠀⠈⠓⠉⢶⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠟⠀⠀⠀⣠⠈⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣟⠁⠀⠀⠀⠀⠙⠻⢭⣉⡉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⡄\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⡀⠀⠀⠀⠘⠋⠁⢠⣿⣦⣾⣿⣿⣷⡀⢀⣀⣠⣠⣤⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠈⢹⠖⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣟⣿⣿⣿⣿⣿⣶⣶⣶⣿⣿⣿⣿⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠇\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡎⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠦⣄⣠⠀⠀⠀⠀⢠⣤⠞⠋⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣤⣤⠴⠛⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⠀⠀⠀⣀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⠀⣀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⠄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀\n"
+	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠶⠀⢀⠀⠀⠀⠀\n"
+	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⠀⠀⢀⠀⠀⠀⠀\n"
+	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
+	@echo "$(LIGHT_CYAN)"
+	@printf "$(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)██╗$(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)███████╗$(LIGHT_CYAN)██╗  ██╗\n"
+	@printf "$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔════╝$(LIGHT_CYAN)╚██╗██╔╝\n"
+	@printf "$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)██║$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)█████╗  $(LIGHT_CYAN) ╚███╔╝ \n"
+	@printf "$(LIGHT_CYAN)██╔═══╝ $(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔═══╝ $(LIGHT_BLUE)██╔══╝  $(LIGHT_CYAN) ██╔██╗ \n"
+	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██║     $(LIGHT_BLUE)███████╗$(LIGHT_CYAN)██╔╝ ██╗\n"
+	@printf "$(LIGHT_CYAN)╚═╝     $(LIGHT_BLUE)╚═╝$(LIGHT_CYAN)╚═╝     $(LIGHT_BLUE)╚══════╝$(LIGHT_CYAN)╚═╝  ╚═╝\n"
+	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
 
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -LLibft -lft -Lft_printf -lftprintf
 
 libft: 
 	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
-	@printf "$(LIGHT_RED)  _      _____ _      __ _   \n"
-	@printf "$(LIGHT_YELLOW) | |    |_   _| |    / _| |  \n"
-	@printf "$(LIGHT_GREEN) | |      | | | |__ | |_| |_ \n"
-	@printf "$(LIGHT_BLUE) | |      | | | '_ \|  _| __|\n"
-	@printf "$(LIGHT_MAGENTA) | |____ _| |_| |_) | | | |_ \n"
-	@printf "$(LIGHT_CYAN) |______|_____|_.__/|_|  \__|\n\033[0m"
 	@echo "$(LIGHT_CYAN)"
+	@printf "$(LIGHT_CYAN)██╗     $(LIGHT_BLUE)██╗$(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)███████╗$(LIGHT_CYAN)████████╗\n"
+	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔════╝$(LIGHT_CYAN)╚══██╔══╝\n"
+	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)█████╗  $(LIGHT_CYAN)   ██║   \n"
+	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔══╝  $(LIGHT_CYAN)   ██║   \n"
+	@printf "$(LIGHT_CYAN)███████╗$(LIGHT_BLUE)██║$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)██║     $(LIGHT_CYAN)   ██║   \n"
+	@printf "$(LIGHT_CYAN)╚══════╝$(LIGHT_BLUE)╚═╝$(LIGHT_CYAN)╚═════╝ $(LIGHT_BLUE)╚═╝     $(LIGHT_CYAN)   ╚═╝   \n"
 	$(MAKE) -C $(LIBFT_PATH)
 	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
 
 ft_printf: 
 	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
-	@printf "$(LIGHT_RED)   __ _                  _       _    __ \n"
-	@printf "$(LIGHT_YELLOW)  / _| |                (_)     | |  / _|\n"
-	@printf "$(LIGHT_GREEN) | |_| |_     _ __  _ __ _ _ __ | |_| |_ \n"
-	@printf "$(LIGHT_BLUE) |  _| __|   | '_ \| '__| | '_ \| __|  _|\n"
-	@printf "$(LIGHT_MAGENTA) | | | |_    | |_) | |  | | | | | |_| |  \n"
-	@printf "$(LIGHT_CYAN) |_|  \__|   | .__/|_|  |_|_| |_|\__|_|  \n"
-	@printf "$(WHITE)       ______| |                         \n"
-	@printf "$(DARK_GRAY)      |______|_|                         \n\033[0m"
+	@printf "$(LIGHT_BLUE)███████╗$(LIGHT_CYAN)████████╗$(LIGHT_BLUE)     $(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)██████╗ $(LIGHT_CYAN)██╗$(LIGHT_BLUE)███╗   ██╗$(LIGHT_CYAN)████████╗$(LIGHT_BLUE)███████╗\n"
+	@printf "$(LIGHT_BLUE)██╔════╝$(LIGHT_CYAN)╚══██╔══╝$(LIGHT_BLUE)     $(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔══██╗$(LIGHT_CYAN)██║$(LIGHT_BLUE)████╗  ██║$(LIGHT_CYAN)╚══██╔══╝$(LIGHT_BLUE)██╔════╝\n"
+	@printf "$(LIGHT_BLUE)█████╗  $(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)     $(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)██████╔╝$(LIGHT_CYAN)██║$(LIGHT_BLUE)██╔██╗ ██║$(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)█████╗  \n"
+	@printf "$(LIGHT_BLUE)██╔══╝  $(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)     $(LIGHT_CYAN)██╔═══╝ $(LIGHT_BLUE)██╔══██╗$(LIGHT_CYAN)██║$(LIGHT_BLUE)██║╚██╗██║$(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)██╔══╝  \n"
+	@printf "$(LIGHT_BLUE)██║     $(LIGHT_CYAN)   ██║███$(LIGHT_BLUE)████╗$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║  ██║$(LIGHT_CYAN)██║$(LIGHT_BLUE)██║ ╚████║$(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)██║     \n"
+	@printf "$(LIGHT_BLUE)╚═╝     $(LIGHT_CYAN)   ╚═╝╚══$(LIGHT_BLUE)════╝$(LIGHT_CYAN)╚═╝     $(LIGHT_BLUE)╚═╝  ╚═╝$(LIGHT_CYAN)╚═╝$(LIGHT_BLUE)╚═╝  ╚═══╝$(LIGHT_CYAN)   ╚═╝   $(LIGHT_BLUE)╚═╝     \n"
 	@echo "$(LIGHT_CYAN)"
 	$(MAKE) -C $(FT_PRINTF_PATH)
 	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
