@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/23 17:06:47 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:38:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <unistd.h>
 
 int	ft_exec_cmd(char *av, char **envp)
 {
@@ -50,19 +51,19 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 		return (ft_perror_msg("FORK ERROR IN FIRST CMD"));
 	if (pid == 0)
 	{
-		close(fd[0]);
+		close(fd[STDIN_FILENO]);
 		if (dup2(infile, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR IN FIRST CMD"));
+			return (ft_perror_msg("FIRST DUP2 ERROR IN FIRST CMD"));
 		close(infile);
-		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR IN FIRST CMD"));
+		if (dup2(fd[STDOUT_FILENO], STDOUT_FILENO) == ERROR)
+			return (ft_perror_msg("SECOND DUP2 ERROR IN FIRST CMD"));
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
 	}
-	close(fd[1]);
+	close(fd[STDOUT_FILENO]);
 	close(infile);
-	return (fd[0]);
+	return (fd[STDIN_FILENO]);
 }
 
 int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
@@ -77,13 +78,13 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 	if (pid == 0)
 	{
 		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR IN LAST CMDTEST"));
+			return (ft_perror_msg("FIRST DUP2 ERROR IN LAST CMD"));
 		close(pipe_in);
 		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile == ERROR)
 			return (ft_perror_msg("OPEN ERROR FOR OUTFILE"));
 		if (dup2(outfile, STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR IN LAST CMD"));
+			return (ft_perror_msg("SECOND DUP2 ERROR IN LAST CMD"));
 		close(outfile);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
@@ -105,17 +106,17 @@ int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 		return (ft_perror_msg("FORK ERROR"));
 	if (pid == 0)
 	{
-		close(fd[0]);
+		close(fd[STDIN_FILENO]);
 		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR"));
+			return (ft_perror_msg("FIRST DUP2 ERROR IN MIDDLE COMMAND"));
 		close(pipe_in);
-		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg("DUP2 ERROR"));
+		if (dup2(fd[STDOUT_FILENO], STDOUT_FILENO) == ERROR)
+			return (ft_perror_msg("SECOND DUP2 ERROR IN MIDDLE COMMAND"));
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
 	}
 	close(pipe_in);
-	close(fd[1]);
-	return (fd[0]);
+	close(fd[STDOUT_FILENO]);
+	return (fd[STDIN_FILENO]);
 }

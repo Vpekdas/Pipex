@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/24 14:26:55 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:34:25 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ int	main(int ac, char **av, char **envp)
 
 	i = 1;
 	pipe = 42;
-	if (ac < 5)
-		return (0);
-	infile = open(av[1], O_RDONLY);
+	if (ac > 4)
+		infile = open(av[1], O_RDONLY);
 	if (ac > 4 && ft_strncmp(av[1], "here_doc", 8) == 0 && infile != ERROR)
 		ft_exec_here_doc(av, envp, av[ac - 1]);
 	else if (ac > 4 && infile != ERROR)
@@ -41,5 +40,3 @@ int	main(int ac, char **av, char **envp)
 		;
 	return (0);
 }
-
-// TODO: Handle here_doc
