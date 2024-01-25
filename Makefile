@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/24 18:44:01 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/25 14:56:08 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,20 @@ SOURCES = main.c \
 		error_message.c \
 		handle_here_doc.c \
 
+BONUS_SOURCES = path_utils.c \
+		exec_cmd_utils.c \
+		free_functions.c \
+		error_message.c \
+		handle_here_doc.c \
+		main_bonus.c \
+
 LIBFT_PATH = Libft
 
 FT_PRINTF_PATH = ft_printf
 
 OBJECTS = $(SOURCES:.c=.o)
+
+BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
 
 CC=cc
 
@@ -83,7 +92,7 @@ ft_printf:
 	$(MAKE) -C $(FT_PRINTF_PATH)
 	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
 
-bonus: $(OBJECTS) libft ft_printf
+bonus: $(BONUS_OBJECTS) libft ft_printf
 	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
 	@printf "$(LIGHT_PURPLE)██████╗ $(LIGHT_CYAN) ██████╗ $(LIGHT_PURPLE)███╗   ██╗$(LIGHT_CYAN)██╗   ██╗$(LIGHT_PURPLE)███████╗\n"
 	@printf "$(LIGHT_PURPLE)██╔══██╗$(LIGHT_CYAN)██╔═══██╗$(LIGHT_PURPLE)████╗  ██║$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)██╔════╝\n"
@@ -91,12 +100,12 @@ bonus: $(OBJECTS) libft ft_printf
 	@printf "$(LIGHT_PURPLE)██╔══██╗$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)██║╚██╗██║$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)╚════██║\n"
 	@printf "$(LIGHT_PURPLE)██████╔╝$(LIGHT_CYAN)╚██████╔╝$(LIGHT_PURPLE)██║ ╚████║$(LIGHT_CYAN)╚██████╔╝$(LIGHT_PURPLE)███████║\n"
 	@printf "$(LIGHT_PURPLE)╚═════╝ $(LIGHT_CYAN) ╚═════╝ $(LIGHT_PURPLE)╚═╝  ╚═══╝$(LIGHT_CYAN) ╚═════╝ $(LIGHT_PURPLE)╚══════╝\n"                                            
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -LLibft -lft -Lft_printf -lftprintf 
+	$(CC) $(CFLAGS) -o $(NAME) $(BONUS_OBJECTS) -LLibft -lft -Lft_printf -lftprintf 
 	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
 
 clean:
 	@echo "$(LIGHT_PURPLE)"
-	$(RM) $(OBJECTS)
+	$(RM) $(OBJECTS) $(BONUS_OBJECTS)
 	cd $(LIBFT_PATH) && make clean
 	cd $(FT_PRINTF_PATH) && make clean
 	@printf "$(LIGHT_RED)Cleaned all object files.\n\033[0m"

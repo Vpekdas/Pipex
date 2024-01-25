@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 14:49:52 by vopekdas         ###   ########.fr       */
+/*   Created: 2024/01/25 14:45:51 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/01/25 14:59:54 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,16 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	int		infile;
 	int		pipe;
 	int		i;
 
 	i = 1;
 	pipe = 42;
-	if (ac > 4)
-		infile = open(av[1], O_RDONLY);
-	if (ac > 4 && infile != ERROR)
-	{
-		while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
-		{
-			if (i == 2)
-				pipe = ft_exec_first_cmd(av[i], envp, infile);
-			else if (i == ac - 2)
-				pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
-			else
-				pipe = ft_exec_middle_cmd(av[i], envp, pipe);
-		}
-	}
+	if (ac > 4 && ft_strcmp(av[1], "here_doc") == 0)
+		ft_exec_here_doc(av, envp, av[ac - 1]);
 	else
-		ft_putstr_fd("Error, arguments are less than 4\n", 2);
+		ft_putstr_fd("Error, arguments are less than 5\n", 2);
 	while (wait(NULL) > 0)
 		;
 	return (0);
 }
-// TODO: add error msg if argc dont match
-// TODO: change strncmp by strcmp

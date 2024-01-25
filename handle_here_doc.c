@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:49:09 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/24 14:15:47 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:59:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	ft_exec_here_doc(char **av, char **envp, char *out_path)
 	while (1)
 	{
 		temp = get_next_line(0);
-		write (here_doc, temp, ft_strlen(temp));
 		if (ft_strncmp(temp, limiter, ft_strlen(limiter)) == 0)
 		{
 			free(temp);
 			break ;
 		}
+		write (here_doc, temp, ft_strlen(temp));
 		free(temp);
 	}
 	close(here_doc);
