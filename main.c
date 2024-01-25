@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 14:49:52 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:56:42 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **envp)
 		}
 	}
 	else
-		ft_putstr_fd("Error, arguments are less than 4\n", 2);
+		ft_putstr_fd("Error, arguments are less than 4 or infile not found\n", 2);
 	while (wait(NULL) > 0)
 		;
 	return (0);
