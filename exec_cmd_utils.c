@@ -6,12 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/24 14:38:31 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:47:22 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <unistd.h>
 
 int	ft_exec_cmd(char *av, char **envp)
 {

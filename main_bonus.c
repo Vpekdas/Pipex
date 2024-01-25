@@ -6,11 +6,10 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:45:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 16:46:01 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:47:18 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Libft/libft.h"
 #include "pipex.h"
 
 int	main(int ac, char **av, char **envp)
