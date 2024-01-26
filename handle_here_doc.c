@@ -6,15 +6,21 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:49:09 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 18:37:49 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:45:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*ft_gnl(char **line, int fd)
+void	ft_free_gnl(char *line, char *buffer)
 {
-	*line = get_next_line(fd);
+	free(line);
+	free(buffer);
+}
+
+char	*ft_gnl(char **line, int fd, char *buffer)
+{
+	*line = get_next_line(fd, buffer);
 	return (*line);
 }
 
@@ -24,20 +30,21 @@ void	ft_exec_here_doc(char **av, char **envp, char *out_path)
 	int		here_doc;
 	char	*temp;
 	int		pipe;
+	char	*buffer;
 
 	limiter = av[2];
 	here_doc = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	pipe = 42;
-	temp = NULL;
-	while (ft_gnl(&temp, 0))
+	buffer = NULL;
+	while (ft_gnl(&temp, 0, buffer))
 	{
 		if (ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0)
 		{
-			free(temp);
+			ft_free_gnl(temp, buffer);
 			break ;
 		}
 		write (here_doc, temp, ft_strlen(temp));
-		free(temp);
+		ft_free_gnl(temp, buffer);
 	}
 	close(here_doc);
 	here_doc = open("here_doc", O_RDONLY);

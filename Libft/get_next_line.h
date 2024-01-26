@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:44:29 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/08 15:59:12 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:41:49 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-char		*get_next_line(int fd);
+char		*get_next_line(int fd, char *buffer);
 char		*ft_strjoin_and_free(char *s1, char *s2);
 
 #endif

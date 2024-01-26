@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:45:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 17:39:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:49:44 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	while (wait(NULL) > 0)
 		;
-	return (0);
 }
 // TODO: handle arguments error
 // TODO: refactor main_bonus.c, too much lines
