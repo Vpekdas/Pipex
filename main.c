@@ -20,25 +20,19 @@ int	main(int ac, char **av, char **envp)
 
 	i = 1;
 	pipe = 42;
-	if (ac > 4)
-		infile = open(av[1], O_RDONLY);
-	if (ac > 4 && infile != ERROR)
+	if (ac != 5)
+		return (ft_error_msg("Error: expected 4 arguments\n"));
+	infile = open(av[1], O_RDONLY);
+	if (infile == ERROR)
+		return (ft_error_msg("Error: input file not found\n"));
+	while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
 	{
-		while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
-		{
-			if (i == 2)
-				pipe = ft_exec_first_cmd(av[i], envp, infile);
-			else if (i == ac - 2)
-				pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
-			else
-				pipe = ft_exec_middle_cmd(av[i], envp, pipe);
-		}
+		if (i == 2)
+			pipe = ft_exec_first_cmd(av[i], envp, infile);
+		else
+			pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
 	}
-	else
-		ft_putstr_fd("Error, arguments are less than 4 or infile not found\n", 2);
 	while (wait(NULL) > 0)
 		;
 	return (0);
 }
-// TODO: add error msg if argc dont match
-// TODO: change strncmp by strcmp

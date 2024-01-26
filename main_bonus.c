@@ -14,6 +14,7 @@
 
 int	main(int ac, char **av, char **envp)
 {
+	int		infile;
 	int		pipe;
 	int		i;
 
@@ -21,12 +22,24 @@ int	main(int ac, char **av, char **envp)
 	pipe = 42;
 	if (ac > 4 && ft_strcmp(av[1], "here_doc") == 0)
 		ft_exec_here_doc(av, envp, av[ac - 1]);
-	else
+	else if (ac > 4)
 	{
-		ft_putstr_fd("Error, ", 2);
-		ft_putstr_fd("expected format : here_doc LIMITER cmd cmd1 file\n", 2);
+		infile = open(av[1], O_RDONLY);
+		if (infile == ERROR)
+			return (ft_error_msg("Error: invalid input file\n"));
+		while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
+		{
+			if (i == 2)
+				pipe = ft_exec_first_cmd(av[i], envp, infile);
+			else if (i == ac - 2)
+				pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
+			else
+				pipe = ft_exec_middle_cmd(av[i], envp, pipe);
+		}
 	}
 	while (wait(NULL) > 0)
 		;
 	return (0);
 }
+// TODO: handle arguments error
+// TODO: refactor main_bonus.c, too much lines

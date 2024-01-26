@@ -38,5 +38,5 @@ void	ft_exec_here_doc(char **av, char **envp, char *out_path);
 void	ft_free_split(char **split);
 
 int		ft_perror_msg(char *str);
-
+int		ft_error_msg(char *str);
 #endif 

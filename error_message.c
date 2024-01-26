@@ -17,3 +17,9 @@ int	ft_perror_msg(char *str)
 	perror(str);
 	return (ERROR);
 }
+
+int	ft_error_msg(char *str)
+{
+	ft_putstr_fd(str, 2);
+	return (ERROR);
+}

@@ -31,7 +31,7 @@ void	ft_exec_here_doc(char **av, char **envp, char *out_path)
 	temp = NULL;
 	while (ft_gnl(&temp, 0))
 	{
-		if (ft_strncmp(temp, limiter, ft_strlen(limiter)) == 0)
+		if (ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0)
 		{
 			free(temp);
 			break ;

@@ -63,7 +63,7 @@ char	*ft_create_path(char *command, char **envp)
 	{
 		new_path = ft_strjoin(path[i], "/");
 		new_path = ft_strjoin_and_free(new_path, command);
-		if (access(new_path, F_OK) == 0)
+		if (access(new_path, X_OK) == 0)
 		{
 			ft_free_split(path);
 			return (new_path);
