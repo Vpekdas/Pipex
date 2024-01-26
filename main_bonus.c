@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **envp)
 
 	i = 1;
 	pipe = 42;
-	if (ac > 4 && ft_strcmp(av[1], "here_doc") == 0)
+	if (ac == 5 && ft_strcmp(av[1], "here_doc") == 0)
 		ft_exec_here_doc(av, envp, av[ac - 1]);
 	else if (ac > 4)
 	{
