@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:45:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/26 16:49:44 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:29:53 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **envp)
 
 	i = 1;
 	pipe = 42;
-	if (ac == 5 && ft_strcmp(av[1], "here_doc") == 0)
+	if (ac == 6 && ft_strcmp(av[1], "here_doc") == 0)
 		ft_exec_here_doc(av, envp, av[ac - 1]);
 	else if (ac > 4)
 	{
