@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 13:47:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 16:56:42 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:17:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **envp)
 		return (ft_error_msg("Error: expected 4 arguments\n"));
 	infile = open(av[1], O_RDONLY);
 	if (infile == ERROR)
-		return (ft_error_msg("Error: input file not found\n"));
+		return (ft_perror_msg("Error: input file not found"));
 	while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
 	{
 		if (i == 2)
