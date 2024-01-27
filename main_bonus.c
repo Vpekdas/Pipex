@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:45:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/27 14:29:53 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/27 18:08:45 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	main(int ac, char **av, char **envp)
 				pipe = ft_exec_middle_cmd(av[i], envp, pipe);
 		}
 	}
+	else
+		return (ft_error_msg("Error: expected 4 arguments\n"));
 	while (wait(NULL) > 0)
 		;
 }
-// TODO: handle arguments error
-// TODO: refactor main_bonus.c, too much lines
+// TODO: refactor main_bonus.c because there is 27 lines.
