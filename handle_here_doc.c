@@ -34,11 +34,11 @@ void	ft_exec_here_doc(char **av, char **envp, char *out_path)
 
 	limiter = av[2];
 	here_doc = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	pipe = 42;
 	buffer = NULL;
 	while (ft_gnl(&temp, 0, buffer))
 	{
-		if (ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0)
+		if (ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0
+			&& temp[0] != '\n')
 		{
 			ft_free_gnl(temp, buffer);
 			break ;

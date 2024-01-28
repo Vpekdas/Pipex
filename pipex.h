@@ -33,6 +33,8 @@ int		ft_exec_cmd(char *av, char **envp);
 int		ft_exec_first_cmd(char *av, char **envp, int infile);
 int		ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path);
 int		ft_exec_middle_cmd(char *av, char **envp, int pipe_in);
+
+int	ft_handle_multi_pipe(int ac, char **av, char **envp);
 void	ft_exec_here_doc(char **av, char **envp, char *out_path);
 
 void	ft_free_split(char **split);

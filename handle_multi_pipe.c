@@ -1,0 +1,26 @@
+#include "pipex.h"
+
+int	ft_handle_multi_pipe(int ac, char **av, char **envp)
+{
+	int		infile;
+	int		pipe;
+	int		i;
+
+	i = 1;
+	pipe = 42;
+	infile = open(av[1], O_RDONLY);
+	if (infile == ERROR)
+		return (ft_perror_msg("Error: input file not found"));
+	while (++i < ac - 1 && pipe != ERROR && infile != ERROR)
+	{
+		if (i == 2)
+			pipe = ft_exec_first_cmd(av[i], envp, infile);
+		else if (i == ac - 2)
+			pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
+		else
+			pipe = ft_exec_middle_cmd(av[i], envp, pipe);
+	}
+	while (wait(NULL) > 0)
+		;
+	return (0);
+}
