@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/01/27 14:26:17 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/01/29 11:00:32 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,13 @@ SOURCES = main.c \
 		exec_cmd_utils.c \
 		free_functions.c \
 		error_message.c \
-		handle_here_doc.c \
 
 BONUS_SOURCES = path_utils.c \
 		exec_cmd_utils.c \
 		free_functions.c \
 		error_message.c \
 		handle_here_doc.c \
+		handle_multi_pipe.c \
 		main_bonus.c \
 
 LIBFT_PATH = Libft
