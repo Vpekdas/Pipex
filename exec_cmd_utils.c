@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/25 16:47:22 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:47:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ int	ft_exec_cmd(char *av, char **envp)
 	cmd = NULL;
 	cmd = ft_split(av, ' ');
 	if (!cmd)
-		return (ft_perror_msg("Split failed\n"));
+		return (ft_error_msg("Split failed\n"));
 	path = ft_create_path(cmd[0], envp);
 	if (!path)
 	{
 		ft_free_split(cmd);
-		return (ft_perror_msg("Path not found"));
+		return (ft_perror_msg());
 	}
 	if (execve(path, cmd, envp) == ERROR)
 	{
 		ft_free_split(cmd);
 		free(path);
-		return (ft_perror_msg("Command cannot be executed"));
+		return (ft_perror_msg());
 	}
 	ft_free_split(cmd);
 	free(path);
@@ -44,18 +44,18 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 	int	pid;
 
 	if (pipe(fd) == ERROR)
-		return (ft_perror_msg("Pipe error in first cmd"));
+		return (ft_perror_msg());
 	pid = fork();
 	if (pid == ERROR)
-		return (ft_perror_msg("Fork error in first cmd"));
+		return (ft_perror_msg());
 	if (pid == 0)
 	{
 		close(fd[STDIN_FILENO]);
 		if (dup2(infile, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("First dup2 error in first cmd"));
+			return (ft_perror_msg());
 		close(infile);
 		if (dup2(fd[STDOUT_FILENO], STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg("Second dup2 error in first cmd"));
+			return (ft_perror_msg());
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
@@ -73,17 +73,17 @@ int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
 	outfile = 42;
 	pid = fork();
 	if (pid == ERROR)
-		return (ft_perror_msg("Fork error in last cmd"));
+		return (ft_perror_msg());
 	if (pid == 0)
 	{
 		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("First dup2 error in last cmd"));
+			return (ft_perror_msg());
 		close(pipe_in);
 		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile == ERROR)
-			return (ft_perror_msg("Open error in last cmd\n"));
+			return (ft_perror_msg());
 		if (dup2(outfile, STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg("Second dup2 error in last cmd"));
+			return (ft_perror_msg());
 		close(outfile);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
@@ -99,18 +99,18 @@ int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 	int	pid;
 
 	if (pipe(fd) == ERROR)
-		return (ft_perror_msg("Pipe error in middle command"));
+		return (ft_perror_msg());
 	pid = fork();
 	if (pid == ERROR)
-		return (ft_perror_msg("Fork error in middle command"));
+		return (ft_perror_msg());
 	if (pid == 0)
 	{
 		close(fd[STDIN_FILENO]);
 		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg("First dup2 error in middle command"));
+			return (ft_perror_msg());
 		close(pipe_in);
 		if (dup2(fd[STDOUT_FILENO], STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg("Second dup2 error in middle command"));
+			return (ft_perror_msg());
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);

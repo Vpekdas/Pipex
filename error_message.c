@@ -6,15 +6,15 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 15:22:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/24 14:33:04 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:47:47 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_perror_msg(char *str)
+int	ft_perror_msg()
 {
-	perror(str);
+	perror("");
 	return (ERROR);
 }
 
