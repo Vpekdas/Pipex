@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/01/29 14:47:24 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/02/03 16:55:16 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 		return (ft_perror_msg());
 	if (pid == 0)
 	{
-		close(fd[STDIN_FILENO]);
+		close(fd[0]);
 		if (dup2(infile, STDIN_FILENO) == ERROR)
 			return (ft_perror_msg());
 		close(infile);
-		if (dup2(fd[STDOUT_FILENO], STDOUT_FILENO) == ERROR)
+		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
 			return (ft_perror_msg());
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
 	}
-	close(fd[STDOUT_FILENO]);
+	close(fd[1]);
 	close(infile);
-	return (fd[STDIN_FILENO]);
+	return (fd[0]);
 }
 
 int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
@@ -105,17 +105,17 @@ int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
 		return (ft_perror_msg());
 	if (pid == 0)
 	{
-		close(fd[STDIN_FILENO]);
+		close(fd[0]);
 		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
 			return (ft_perror_msg());
 		close(pipe_in);
-		if (dup2(fd[STDOUT_FILENO], STDOUT_FILENO) == ERROR)
+		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
 			return (ft_perror_msg());
 		close(fd[1]);
 		if (ft_exec_cmd(av, envp) == ERROR)
 			return (ERROR);
 	}
 	close(pipe_in);
-	close(fd[STDOUT_FILENO]);
-	return (fd[STDIN_FILENO]);
+	close(fd[1]);
+	return (fd[0]);
 }
