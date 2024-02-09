@@ -83,7 +83,7 @@ Ensure ye have a trusty C compiler installed on yer vessel, such as [Clang](http
 3. Hoist the sails and compile the project using `make`. If ye be wantin' to handle multiple pipes or make use of the here_doc feature, set yer sights on `make bonus`:
 
     ```bash
-    make && make bonus
+    make || make bonus
     ```
 
     This will raise the Jolly Roger and bring forth the `pipex` executable.
@@ -93,11 +93,11 @@ Ensure ye have a trusty C compiler installed on yer vessel, such as [Clang](http
 Execute the `pipex` program with the commands ye wish to run and the paths to yer desired ports:
 
 ```bash
-./pipex treasure_map cmd1 cmd2 treasure_chest
+./pipex infile cmd1 cmd2 outfile
 
-./pipex treasure_map cmd1 cmd2 cmd3 ... treasure_chest
+./pipex infile cmd1 cmd2 cmd3 cmd... outfile
 
-./pipex here_doc LIMITER cmd1 cmd2 treasure_chest
+./pipex here_doc LIMITER cmd1 cmd2 outfile
 ```
 
 ## License
