@@ -372,7 +372,7 @@ I welcome contributions from everyone. Here are some guidelines to follow:
 
 2. **Clone the repository**: Clone the forked repository to your local machine.
 ```bash
-git clone https://github.com/Vpekdas/push_swap.git
+git clone https://github.com/Vpekdas/Pipex.git
 ```
 
 3. **Create a new branch**: Create a new branch for each feature or bug fix you're working on. Do not make changes directly on the master branch
