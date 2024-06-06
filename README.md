@@ -302,7 +302,6 @@ int	ft_handle_multi_pipe(int ac, char **av, char **envp)
 		;
 	return (0);
 }
-}
 ```
 
 * Here documents (or "here docs") are a feature of Unix shells that allow you to create a string or file from multiple lines of input. In this project, I handle here documents by creating a temporary file and then deleting it with the unlink function.
