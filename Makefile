@@ -5,160 +5,222 @@
 #                                                     +:+ +:+         +:+      #
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/07 14:36:07 by vopekdas          #+#    #+#              #
-#    Updated: 2024/02/03 16:56:13 by vopekdas         ###   ########.fr        #
+#    Created: 2024/06/04 04:26:45 by vopekdas          #+#    #+#              #
+#    Updated: 2024/06/06 02:02:43 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-LIGHT_RED=\033[1;31m
-LIGHT_GREEN=\033[1;32m
-LIGHT_YELLOW=\033[1;33m
-LIGHT_BLUE=\033[1;34m
-LIGHT_MAGENTA=\033[1;35m
-LIGHT_CYAN=\033[1;36m
-WHITE=\033[1;37m
-LIGHT_GRAY=\033[0;37m
-DARK_GRAY=\033[1;30m
-LIGHT_PURPLE=\033[1;35m
+# ============================== PROJECT INFO ================================ #
+NAME				:= pipex
+NAME_BONUS			:= pipex_bonus
+PROJECT_NAME		:= Pipex
 
-NAME = pipex
+# =========================== COMPILER AND FLAGS ============================= #
+CC				:= clang
+CFLAGS			:= -Wall -Wextra -Werror -g3 -O3 -fno-builtin -I includes/
 
-SOURCES = main.c \
-		path_utils.c \
-		exec_cmd_utils.c \
-		free_functions.c \
-		error_message.c \
-
-BONUS_SOURCES = path_utils.c \
-		exec_cmd_utils.c \
-		free_functions.c \
-		error_message.c \
-		handle_here_doc.c \
-		handle_multi_pipe.c \
-		main_bonus.c \
-
+# ================================= ALIASES ================================== #
 LIBFT_PATH = Libft
+SRCS_PATH = src/
+OBJS_PATH = obj/
 
-FT_PRINTF_PATH = ft_printf
+RM = rm -rf
+# =============================== ANSI CODES ================================= #
 
-OBJECTS = $(SOURCES:.c=.o)
+# utils
+ERASE_L			:= \033[K
+CURS_UP			:= \033[A
+SAVE_CURS_POS	:= \033[s
+LOAD_CURS_SAVE	:= \033[u
+BOLD			:= \033[1m
+BLINK			:= \033[5m
 
-BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
+# reset
+NC				:= \033[0m
 
-CC=cc
+# colors
+YELLOW			:= \033[0;33m
+GREEN			:= \033[0;32m
+BLUE			:= \033[0;34m
+RED				:= \033[0;31m
+PURPLE			:= \033[0;35m
+CYAN			:= \033[0;36m
+BLACK			:= \033[0;30
+WHITE			:= \033[0;37m
 
-CFLAGS=-Wall -Wextra -Werror -g3
+# bold + colors
+BYELLOW			:= \033[1;33m
+BGREEN			:= \033[1;32m
+BBLUE			:= \033[1;34m
+BRED			:= \033[1;31m
+BPURPLE			:= \033[1;35m
+BCYAN			:= \033[1;36m
+BBLACK			:= \033[1;30m
+BWHITE			:= \033[1;37m
 
-RM = rm -f
+# advanced colors
+A_BLACK			:= \033[38;5;232m
 
-.PHONY: all clean fclean re libft ft_printf
+# bg colors
+GREEN_BG		:= \033[48;5;2m
+WHITE_BG		:= \033[48;5;15m
 
-all: libft ft_printf $(NAME)
-	@echo "$(LIGHT_CYAN)"
-	@printf "$(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)██╗$(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)███████╗$(LIGHT_CYAN)██╗  ██╗\n"
-	@printf "$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔════╝$(LIGHT_CYAN)╚██╗██╔╝\n"
-	@printf "$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)██║$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)█████╗  $(LIGHT_CYAN) ╚███╔╝ \n"
-	@printf "$(LIGHT_CYAN)██╔═══╝ $(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔═══╝ $(LIGHT_BLUE)██╔══╝  $(LIGHT_CYAN) ██╔██╗ \n"
-	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██║     $(LIGHT_BLUE)███████╗$(LIGHT_CYAN)██╔╝ ██╗\n"
-	@printf "$(LIGHT_CYAN)╚═╝     $(LIGHT_BLUE)╚═╝$(LIGHT_CYAN)╚═╝     $(LIGHT_BLUE)╚══════╝$(LIGHT_CYAN)╚═╝  ╚═╝\n"
-	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⢀⣠⣤⠶⠶⠶⠶⢦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"⠀
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠛⠁⠀⠀⠀⠀⠀⠀⠈⠙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⣠⡴⠞⠛⠉⠉⣩⣍⠉⠉⠛⠳⢦⣄⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⣴⡿⣧⣀⠀⢀⣠⡴⠋⠙⢷⣄⡀⠀⣀⣼⢿⣦⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⡾⠋⣷⠈⠉⠉⠉⠉⠀⠀⠀⠀⠉⠉⠋⠉⠁⣼⠙⢷⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣇⠀⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⠀⣸⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣹⣆⠀⢻⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡟⠀⣰⣏⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠞⠋⠁⠙⢷⣄⠙⢷⣀⠀⠀⠀⠀⠀⠀⢀⡴⠋⢀⡾⠋⠈⠙⠻⢦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀⠀⠀⠀⠀⠹⢦⡀⠙⠳⠶⢤⡤⠶⠞⠋⢀⡴⠟⠀⠀⠀⠀⠀⠀⠙⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⣼⠋⠀⠀⢀⣤⣤⣤⣤⣤⣤⣤⣿⣦⣤⣤⣤⣤⣤⣤⣴⣿⣤⣤⣤⣤⣤⣤⣤⡀⠀⠀⠙⣧⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⣸⠏⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⢠⣴⠞⠛⠛⠻⢦⡄⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⢠⡟⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⣿⢶⣄⣠⡶⣦⣿⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⣾⠁⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀⠀⠀⠀⢻⣿⠶⠟⠻⠶⢿⡿⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠈⣿⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⢰⡏⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⢾⣄⣹⣦⣀⣀⣴⢟⣠⡶⠀⠀⠀⠀⠀⠀⣼⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⣭⣭⡿⠛⠁⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠘⣧⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⢿⡀⠀⠀⠀⠀⠀⠀⣀⡴⠞⠋⠙⠳⢦⣀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⢰⡏⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠈⢿⣄⣀⠀⠀⢀⣤⣼⣧⣤⣤⣤⣤⣤⣿⣭⣤⣤⣤⣤⣤⣤⣭⣿⣤⣤⣤⣤⣤⣼⣿⣤⣄⠀⠀⣀⣠⡾⠁⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠛⠻⢧⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠼⠟⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
-	@printf "⣷⣶⣶⣶⣶⣶⣶⣿⣷⣶⣿⣿⣾⣿⣶⣶⣿⣿⣷⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣷⣷⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶\n"
-	@printf "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣷⣶⣿⣿\n"
-	@printf "You can now use pipex virus to hack bocal's computer.\n"
+# ================================ SRC FILES ================================= #
 
-$(NAME): $(OBJECTS)
-	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
-	@echo "$(LIGHT_CYAN)"
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) -LLibft -lft -Lft_printf -lftprintf
+SRCS 			:=	$(addprefix $(SRCS_PATH), \
+					error_message.c \
+					exec_cmd_utils.c \
+					free_functions.c \
+					main.c \
+					path_utils.c \
+)
 
-libft: 
-	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
-	@echo "$(LIGHT_CYAN)"
-	@printf "$(LIGHT_CYAN)██╗     $(LIGHT_BLUE)██╗$(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)███████╗$(LIGHT_CYAN)████████╗\n"
-	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔════╝$(LIGHT_CYAN)╚══██╔══╝\n"
-	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)█████╗  $(LIGHT_CYAN)   ██║   \n"
-	@printf "$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║$(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔══╝  $(LIGHT_CYAN)   ██║   \n"
-	@printf "$(LIGHT_CYAN)███████╗$(LIGHT_BLUE)██║$(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)██║     $(LIGHT_CYAN)   ██║   \n"
-	@printf "$(LIGHT_CYAN)╚══════╝$(LIGHT_BLUE)╚═╝$(LIGHT_CYAN)╚═════╝ $(LIGHT_BLUE)╚═╝     $(LIGHT_CYAN)   ╚═╝   \n"
-	$(MAKE) -C $(LIBFT_PATH)
-	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
+SRCS_BONUS 		:=	$(addprefix $(SRCS_PATH), \
+					main_bonus.c \
+					handle_here_doc.c \
+					handle_multi_pipe.c \
+					error_message.c \
+					exec_cmd_utils.c \
+					free_functions.c \
+					path_utils.c \
+)
 
-ft_printf: 
-	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
-	@printf "$(LIGHT_BLUE)███████╗$(LIGHT_CYAN)████████╗$(LIGHT_BLUE)     $(LIGHT_CYAN)██████╗ $(LIGHT_BLUE)██████╗ $(LIGHT_CYAN)██╗$(LIGHT_BLUE)███╗   ██╗$(LIGHT_CYAN)████████╗$(LIGHT_BLUE)███████╗\n"
-	@printf "$(LIGHT_BLUE)██╔════╝$(LIGHT_CYAN)╚══██╔══╝$(LIGHT_BLUE)     $(LIGHT_CYAN)██╔══██╗$(LIGHT_BLUE)██╔══██╗$(LIGHT_CYAN)██║$(LIGHT_BLUE)████╗  ██║$(LIGHT_CYAN)╚══██╔══╝$(LIGHT_BLUE)██╔════╝\n"
-	@printf "$(LIGHT_BLUE)█████╗  $(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)     $(LIGHT_CYAN)██████╔╝$(LIGHT_BLUE)██████╔╝$(LIGHT_CYAN)██║$(LIGHT_BLUE)██╔██╗ ██║$(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)█████╗  \n"
-	@printf "$(LIGHT_BLUE)██╔══╝  $(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)     $(LIGHT_CYAN)██╔═══╝ $(LIGHT_BLUE)██╔══██╗$(LIGHT_CYAN)██║$(LIGHT_BLUE)██║╚██╗██║$(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)██╔══╝  \n"
-	@printf "$(LIGHT_BLUE)██║     $(LIGHT_CYAN)   ██║███$(LIGHT_BLUE)████╗$(LIGHT_CYAN)██║     $(LIGHT_BLUE)██║  ██║$(LIGHT_CYAN)██║$(LIGHT_BLUE)██║ ╚████║$(LIGHT_CYAN)   ██║   $(LIGHT_BLUE)██║     \n"
-	@printf "$(LIGHT_BLUE)╚═╝     $(LIGHT_CYAN)   ╚═╝╚══$(LIGHT_BLUE)════╝$(LIGHT_CYAN)╚═╝     $(LIGHT_BLUE)╚═╝  ╚═╝$(LIGHT_CYAN)╚═╝$(LIGHT_BLUE)╚═╝  ╚═══╝$(LIGHT_CYAN)   ╚═╝   $(LIGHT_BLUE)╚═╝     \n"
-	@echo "$(LIGHT_CYAN)"
-	$(MAKE) -C $(FT_PRINTF_PATH)
-	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
+# ================================ OBJ FILES ================================= #
 
-bonus: $(BONUS_OBJECTS) libft ft_printf
-	@printf "$(LIGHT_BLUE)Starting compilation...\n\033[0m"
-	@printf "$(LIGHT_PURPLE)██████╗ $(LIGHT_CYAN) ██████╗ $(LIGHT_PURPLE)███╗   ██╗$(LIGHT_CYAN)██╗   ██╗$(LIGHT_PURPLE)███████╗\n"
-	@printf "$(LIGHT_PURPLE)██╔══██╗$(LIGHT_CYAN)██╔═══██╗$(LIGHT_PURPLE)████╗  ██║$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)██╔════╝\n"
-	@printf "$(LIGHT_PURPLE)██████╔╝$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)██╔██╗ ██║$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)███████╗\n"
-	@printf "$(LIGHT_PURPLE)██╔══██╗$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)██║╚██╗██║$(LIGHT_CYAN)██║   ██║$(LIGHT_PURPLE)╚════██║\n"
-	@printf "$(LIGHT_PURPLE)██████╔╝$(LIGHT_CYAN)╚██████╔╝$(LIGHT_PURPLE)██║ ╚████║$(LIGHT_CYAN)╚██████╔╝$(LIGHT_PURPLE)███████║\n"
-	@printf "$(LIGHT_PURPLE)╚═════╝ $(LIGHT_CYAN) ╚═════╝ $(LIGHT_PURPLE)╚═╝  ╚═══╝$(LIGHT_CYAN) ╚═════╝ $(LIGHT_PURPLE)╚══════╝\n"                                            
-	$(CC) $(CFLAGS) -o $(NAME) $(BONUS_OBJECTS) -LLibft -lft -Lft_printf -lftprintf 
-	@printf "$(LIGHT_GREEN)Compilation completed successfully.\n\033[0m"
+OBJS = $(addprefix $(OBJS_PATH), $(notdir $(SRCS:.c=.o)))
+
+OBJS_BONUS = $(addprefix $(OBJS_PATH), $(notdir $(SRCS_BONUS:.c=.o)))
+
+# ============================= FORMATTING VARS ============================== #
+
+# counting files vars
+TOTAL			:= $(words $(SRCS))
+FILE_COUNT		:= 0
+
+# progress bar vars
+BAR_COUNT		:= 0
+BAR_PROGRESS	:= 0
+BAR_SIZE		:= 64
+
+# gradient G vars
+GRAD_G_PROG		:= 0
+GRAD_G_SIZE		:= 12
+GRADIENT_G		:= \033[38;5;160m \
+				\033[38;5;196m \
+				\033[38;5;202m \
+				\033[38;5;208m \
+				\033[38;5;214m \
+				\033[38;5;220m \
+				\033[38;5;226m \
+				\033[38;5;190m \
+				\033[38;5;154m \
+				\033[38;5;118m \
+				\033[38;5;82m \
+				\033[38;5;46m
+
+# gradient B vars
+GRAD_B_PROG		:= 0
+GRAD_G_SIZE		:= 0
+GRADIENT_B		:= \033[38;5;2m \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5; \
+				 \033[38;5;
+
+# function to get the current color of the bar by index in the gradient
+define GET_G_GRADIENT
+$(word $(1),$(GRADIENT_G))
+endef
+
+all: $(NAME)
+
+$(NAME): $(OBJS) libft
+#	==================== draw progress bar ===================
+#	=========== erase prev line + write "compiling" ==========
+	@printf "\t"
+	@for N in $$(seq 1 $(shell echo $$(($(BAR_SIZE) + 2)))); do \
+		echo -n █; \
+	done
+	@printf "\r"
+	@echo "$(WHITE_BG)$(A_BLACK)$(BOLD)\t Compiling:$(NC)"
+#	=============== draw finished progress bar ===============
+	@printf "\t█$(GREEN)"
+	@for N in $$(seq 1 $(BAR_PROGRESS)); do \
+		echo -n █; \
+	done
+#	============= save position of cursor (eol) ==============
+	@printf "$(SAVE_CURS_POS)"
+#	======== go back to the middle of the line with \b =======
+	@$(eval BAR_PROGRESS=$(shell echo $$(($(BAR_PROGRESS) / 2))))
+	@for N in $$(seq 1 $(BAR_PROGRESS)); do \
+		echo -n "\b"; \
+	done
+#	====================== print "COMPLETE" ======================
+	@printf "\b\b\b\b$(NC)$(BLINK)$(BOLD)$(GREEN_BG)COMPLETE"
+#	= go back to the saved position (eol) and go up one line =
+	@printf "$(LOAD_CURS_SAVE)$(NC)█$(CURS_UP)"
+#	==== go back several characters and print percentage =====
+	@printf "\b\b\b\b\b$(A_BLACK)$(WHITE_BG)$(BOLD)%3d%%$(NC)\r" $(PERCENT)
+#	================= write rest of messages =================
+	@echo "\n\n\n[🔘] $(BGREEN)$(PROJECT_NAME) compiled !$(NC)\n"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -LLibft -lft
+	@printf "[✨] $(BCYAN)[%2d/%2d]\t$(BWHITE)All files have been compiled ✔️$(NC)\n" $(FILE_COUNT) $(TOTAL)
+
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c
+	@mkdir -p $(OBJS_PATH)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(eval FILE_COUNT=$(shell echo $$(($(FILE_COUNT)+1))))
+	@$(eval PERCENT:=$(shell echo $$((100*$(FILE_COUNT)/$(TOTAL)))))
+#	================= calculate progress bar =================
+	@$(eval BAR_PROGRESS=$(shell echo $$(($(BAR_SIZE)*$(FILE_COUNT)/$(TOTAL)))))
+#	================== calculate bar color ===================
+	@$(eval GRAD_G_PROG=$(shell echo $$(($(GRAD_G_SIZE)*$(FILE_COUNT)/$(TOTAL) + 1))))
+#	========== printing compiling file + percentage ==========
+	@printf "\t"
+	@for N in $$(seq 1 $(shell echo $$(($(BAR_SIZE) + 2)))); do \
+		echo -n █; \
+	done
+	@printf "\r"
+	@printf "\t$(A_BLACK)$(BOLD)$(WHITE_BG) Compiling: $@%*s...$(NC)\n"
+#	=================== draw progress bar ====================
+	@printf "\t█$(call GET_G_GRADIENT, $(GRAD_G_PROG))"
+	@for N in $$(seq 1 $(BAR_PROGRESS)); do \
+		echo -n █; \
+	done
+	@for N in $$(seq 1 $(shell echo $$(($(BAR_SIZE) - $(BAR_PROGRESS))))); do \
+		echo -n ░; \
+	done
+	@printf "$(NC)█\n\t"
+	@for N in $$(seq 1 $(shell echo $$(($(BAR_SIZE) + 2)))); do \
+		echo -n ▀; \
+	done
+	@printf "$(CURS_UP)$(CURS_UP)"
+	@printf "\b\b\b\b\b$(A_BLACK)$(WHITE_BG)$(BOLD)%3d%%$(NC)\r" $(PERCENT)
+#	==========================================================
+
+bonus: $(OBJS_BONUS) libft 
+	$(CC) $(CFLAGS) -o $(NAME_BONUS) $(OBJS_BONUS) -LLibft -lft
+
+libft:
+	@$(MAKE) -s -C $(LIBFT_PATH)
 
 clean:
-	@echo "$(LIGHT_PURPLE)"
-	$(RM) $(OBJECTS) $(BONUS_OBJECTS)
-	cd $(LIBFT_PATH) && make clean
-	cd $(FT_PRINTF_PATH) && make clean
-	@printf "$(LIGHT_RED)Cleaned all object files.\n"
-	@printf " ⠀⠀⠀⠀⠀⠀⠀⠀    ⢀⣀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"⠀⠀
-	@printf " ⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀\n"⠀
-	@printf " ⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀\n"⠀
-	@printf " ⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀\n"⠀
-	@printf " ⠀⠀⢠⣿⡿⠿⠿⠿⠿⠿⠿⠿⣿⠿⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿⠿⢿⣿⡄⠀\n"⠀
-	@printf " ⠀⢀⣿⣿⡇⠀⠀⣠⣤⣄⣀⣠⣿⠀⠀⢀⣤⣀⡀⠀⠘⣿⣿⠀⠀⢸⣿⣿⡀\n"⠀
-	@printf " ⠀⢸⣿⣿⡇⠀⠀⣿⣿⣿⣿⣿⣿⠀⠀⢸⣿⣿⠟⠀⠀⣿⣿⠀⠀⢸⣿⣿⡇\n"⠀
-	@printf " ⠀⢸⣿⣿⡇⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠺⣿⣿⠀⠀⢸⣿⣿⡧\n"⠀
-	@printf " ⠀⢸⣿⣿⡇⠀⠀⣿⣿⣿⣿⣿⣿⠀⠀⢸⣿⣿⣿⠀⠀⢹⣿⠀⠀⢸⣿⣿⡇\n"⠀
-	@printf " ⠀⠈⣿⣿⡇⠀⠀⣿⣿⣿⣿⣿⣿⠀⠀⠈⠛⠛⠉⠀⢀⣾⣿⠀⠀⢸⣿⣿⠃\n"⠀
-	@printf " ⠀⠀⠸⣿⣷⣶⣶⣿⣿⣿⣿⣿⣿⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿⣶⣶⣾⣿⠇⠀\n"⠀
-	@printf " ⠀⠀⠀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀\n"⠀
-	@printf " ⠀⠀⠀⠀⠀⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀\n"⠀
-	@printf " ⠀⠀⠀⠀⠀⠀⠀⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀\n"⠀
-	@printf " ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⠛⠛⠋⠉⠉⠀⠀⠀⠀⠀      \n"
-	@printf "Don't forget to clean pipex virus or put your computer in microwawe.\n"
+	@printf "$(PURPLE)"
+	@$(RM) $(OBJS) obj
+	@cd $(LIBFT_PATH) && make clean
+	@echo "[🧼] $(BYELLOW)Objects $(YELLOW)files have been cleaned from $(PROJECT_NAME) and $(LIBFT_PATH) ✔️$(NC)\n"
 
 fclean: clean
-	@echo "$(LIGHT_PURPLE)"
-	$(RM) $(NAME)
-	cd $(LIBFT_PATH) && make fclean
-	cd $(FT_PRINTF_PATH) && make fclean
-	@printf "$(LIGHT_RED)Cleaned all object files.\n"
-	@printf "You are a good hacker GG.\n"
+	@printf "$(PURPLE)"
+	@$(RM) $(NAME) $(NAME_BONUS)
+	@cd $(LIBFT_PATH) && make fclean
+	@echo "[🚮] $(BRED)All $(RED)files have been cleaned ✔️$(NC)\n"
 
-re: fclean all
+re: clean all
+
+.PHONY:  all clean fclean re libft bonus
