@@ -78,22 +78,22 @@ This will execute the pipeline grep a1 | wc -w | awk '{print $1}' on the infile 
 
 Here's an overview of my approach to implementing the Pipex project with bonus features.
 
-***Understanding Environment Variables:***
+### Understanding Environment Variables:
 The first step was to understand how the third variable of main, the environment variables, work. These are accessed as a char **, similar to argv. Thankfully, the 42 curriculum hinted that I only needed to parse variables starting with PATH:. This variable contains directories where binaries are located.
 
-***Checking Command Existences***
+### Checking Command Existences:
 Once the paths were collected, the next step was to check if a command exists in these directories. This was achieved using the access function with X_OK, which checks if an executable exists at the specified path. My function either returns the path or NULL if no executable is found. If the command starts with "/", it's a relative path, so there's no need to create a path.
 
-***Setting Up a Pipe***
+### Setting Up a Pipe:
 The next step was to set up a pipe. This is necessary because two child processes cannot communicate directly; they perform their tasks and then exit. To collect the output of one process for use in another, a pipe is created. This pipe allows the processes to communicate by reading from and writing to specific file descriptors (fd).
 
-***Managing File Descriptors***
+### Managing File Descriptors:
 After setting up the pipe, the read and write locations are specified. The pipe function requires an int array with two indices, which it fills with valid file descriptors. It's important to check for errors from these system calls, which return -1. One of the main challenges here was avoiding file descriptor leaks, which can be detected using Valgrind with the --track-fds=yes and --trace-children=yes options. To prevent leaks, all unused file descriptors must be closed. Before closing them, the dup2 function is used to copy a file descriptor and replace another one. This effectively replaces STDIN and STDOUT with file descriptors corresponding to indices of our pipe array.
 
-***Executing Commands***
+### Executing Commands:
 With the setup complete, the final step is execution. In C, the execve function is used for this purpose. It requires three parameters: the path of the command, the command with its options, and the environment variables. If execve succeeds, it's quite convenient as all memory is automatically freed. However, if it fails, there's no automatic exit, so all memory leaks must be manually handled.
 
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 * Let's begin with storing the PATH environment variable, which holds all the paths for our commands. The function ft_get_path will traverse the ENV variable (you can type ENV in your terminal to see all of your environment variables) and return a char **. Each index of this array contains a directory where executables might be located.
 ```C
 char	**ft_get_path(char **env)
@@ -411,7 +411,25 @@ If you have any questions, issues, or if you want to contribute, feel free to re
 
 ## Project Development
 
-This project started as a simple tool for personal use and is evolving into a full-fledged library. While it has been a solo endeavor so far, contributions from the community are welcome and appreciated.
+### Development Process
+
+The development of the "pipex" project started with learning about how pipes work through YouTube videos [Code Vault](https://www.youtube.com/c/CodeVault) and reading the manual pages for the functions to be used. Initially, I hardcoded the function to launch two shell commands. Once I understood the pattern, I generalized the function to handle any number of commands. 
+
+### Challenges and Solutions
+
+The main challenges faced during the development of "pipex" were correctly closing file descriptors to prevent leaks and eliminating the "still reachable" issue in my `get_next_line` function. To overcome these challenges, I used Valgrind and learned more about the `fork` function, specifically how a child process receives a copy of its parent's resources and the importance of closing file descriptors in both parent and child processes. For the "still reachable" issue, I recoded the problematic part of the function.
+
+### Tools and Technologies Used
+
+The "pipex" project was developed using C.
+
+### Lessons Learned
+
+The development of "pipex" highlighted the importance of correctly managing file descriptors. Failing to close a file descriptor can lead to leaks and unexpected behavior in certain functions, such as `cat`. I also learned some useful shell testing techniques, such as reading from `/dev/urandom` and using `cat` and `tail` commands to manipulate the output.
+
+### Future Plans
+
+While there are currently no plans to update the "pipex" project, the experience gained from this project was invaluable in the development of a more complex project called "minishell".
 
 ### Current Status
 
