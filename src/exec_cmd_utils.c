@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/06 01:27:38 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:13:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_exec_cmd(char *av, char **envp)
 	cmd = ft_split(av, ' ');
 	if (!cmd)
 		return (ft_error_msg("Error: Split failed\n"));
-	if (av[0] == '/')
+	if (av[0] == '/' || av[0] == '.')
 		path = ft_strdup(av);
 	else
 		path = ft_create_path(cmd[0], envp);
