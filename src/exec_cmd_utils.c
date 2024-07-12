@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:17:54 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/13 16:13:33 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 02:28:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_exec_cmd(char *av, char **envp)
 	char	**cmd;
 	char	*path;
 
-	cmd = NULL;
 	cmd = ft_split(av, ' ');
 	if (!cmd)
 		return (ft_error_msg("Error: Split failed\n"));
@@ -48,7 +47,7 @@ int	ft_exec_first_cmd(char *av, char **envp, int infile)
 	if (pipe(fd) == ERROR)
 		return (ft_perror_msg());
 	if (infile == -1)
-		return (ERROR);
+		return (close(fd[1]), fd[0]);
 	pid = fork();
 	if (pid == ERROR)
 		return (ft_perror_msg());
