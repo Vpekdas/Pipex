@@ -67,7 +67,7 @@ make bonus
 
 To report issues, please create an issue here:  [issue tracker](https://github.com/Vpekdas/pipex/issues).
 
-If you'd like to contribute, please follow the steps outlined in our [CONTRIBUTING.md](CONTRIBUTING.md).
+If you'd like to contribute, please follow the steps outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 ## License
