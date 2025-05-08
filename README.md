@@ -1,448 +1,100 @@
 # Pipex
 
-# Table of Contents
+## Table of Contents
 1. [Description](#description)
-2. [Installation Instructions](#installation-instructions)
-3. [Usage Instructions](#usage-instructions)
-4. [Key Features](#key-features)
-5. [Contribution Guidelines](#contribution-guidelines)
-6. [License Information](#license-information)
-7. [Contact Information](#contact-information)
-8. [Project Development](#project-development)
+2. [Installation](#installation)
+3. [Run](#run)
+4. [Credits](#credits)
+5. [Contributing](#contributing)
+6. [License](#license)
 
 ## Description
 
-Pipex is a system programming project that simulates the functionality of the Unix pipeline command. It is part of the 42 curriculum and is implemented in C. The primary challenge lies in creating a program that can take two commands and a file as input, execute the first command on the file, and then execute the second command on the output of the first command. This project not only tests your programming skills but also your understanding of inter-process communication and file descriptors. It's a great opportunity to delve deeper into the workings of Unix systems and enhance your knowledge of system programming.
+Pipex is a project from the 42 Common Core curriculum designed to introduce the use of the fork() function to create child processes, pipe() to create pipes, explore the envp argument in main, and execute external binary from the initial program.
 
-## Installation Instructions
+As part of the 42 curriculum, this project comes with strict coding guidelines:
+- The standard C library is forbidden, requiring the use of custom code for all tasks.
+- A strict rule of 5 functions per file and 25 lines per function is enforced.
+- There are restrictions such as no assignments on the same line and a focus on clean, maintainable code.
 
-Before you begin, ensure you have met the following requirements:
+This project provides hands-on experience with low-level graphical programming and reinforces good coding practices under challenging constraints.
 
-1. **Download the library**: You can clone the library from GitHub using the following command in your terminal:
+### Purpose
+
+The goal of this program is to execute commands given as arguments, such as cat | ls, simulating the behavior of pipes in a shell.
+
+### Technologies used
+
+- C language.
+- Make.
+
+### Challenges and Future Features
+
+The main challenges were understanding the third argument of main, called char **env, learning how to parse and detect if a binary exists, properly using fork() to create child processes, ensuring actions only occur in the child process, and executing commands.
+
+I’m not planning to add any new features at this time.
+
+## Installation
+
+- Ensure you have a C compiler installed, such as [Clang](https://clang.llvm.org/) or [GCC](https://gcc.gnu.org/)
 ```bash
-git clone https://github.com/Vpekdas/pipex.git
+clang --version
+gcc --version
 ```
-
-2. **Install a C compiler**: If you don't already have a C compiler installed, you will need one to build and use this library. You can install the [Clang compiler](https://clang.llvm.org).
-   
-- On a Mac, you should already have Clang installed as part of Xcode Command Line Tools. You can confirm this by running clang --version in your terminal. If it's not installed, you'll be prompted to install it.
-
-- On a Linux machine, use the package manager for your distribution. For example, on Ubuntu:
+- Ensure you have installed [Make](https://www.gnu.org/software/make/) to build the project
 ```bash
-sudo apt install clang
+make --version
 ```
 
-## Usage Instructions
+## Run
 
-To use the Pipex project, follow these steps:
-
-1 - Clone the repository: Clone this repository to your local machine. You can do this by running the following command in your terminal:
+1. Build the project:
 ```bash
-git clone https://github.com/Vpekdas/Pipex.git
+make bonus
 ```
 
-2 - Compile the project: Navigate to the cloned repository and compile the project using the provided Makefile. Run the following command in your terminal:
+2. This will create a `./pipex` binary.
+
+3. Run the program with the following arguments:
+
 ```bash
-make && make bonus
-```
-This will create two executables: pipex and pipex_bonus.
-
-3 - Run the pipex program: The pipex program takes two commands and a file as arguments and executes the first command on the file, then executes the second command on the output of the first command. Here's an example:
-```bash
-./pipex infile "ls -l" "wc -l" outfile
-```
-This will output the result of the pipeline command ls -l | wc -l into the outfile.
-
-4 - Verify the output: You can verify the output by comparing it with the output of the actual pipeline command in the shell. Here's an example:
-```bash
-< infile ls -l | wc -l > outfile
-cat outfile
-```
-This will output the number of lines in the detailed list of the file's content. Compare this output with the output in the outfile generated by pipex to verify the correctness of the program.
-
-The Pipex project also includes bonus features that allow for the use of here_doc and multi-pipe functionality. Here's how to use them:
-
-1 - Using here_doc: The here_doc feature allows you to use a here document as input instead of a file. To use this feature, use the keyword here_doc followed by a delimiter (LIMITER), your commands, and the output file. Here's an example:
-```bash
-./pipex_bonus here_doc LIMITER "grep a1" "wc -w" outfile
-```
-Then, you can input your here document in the terminal, ending it with your LIMITER. The output of your commands will be written to the outfile.
-
-2 - Using multi-pipe: The multi-pipe feature allows you to use more than two commands in your pipeline. To use this feature, simply add more commands to your pipex command. Here's an example:
-```bash
-./pipex_bonus infile "grep a1" "wc -w" "awk '{print $1}'" outfile
-```
-This will execute the pipeline grep a1 | wc -w | awk '{print $1}' on the infile and write the output to the outfile.
-
-## Key Features
-
-Here's an overview of my approach to implementing the Pipex project with bonus features.
-
-### Understanding Environment Variables:
-The first step was to understand how the third variable of main, the environment variables, work. These are accessed as a char **, similar to argv. Thankfully, the 42 curriculum hinted that I only needed to parse variables starting with PATH:. This variable contains directories where binaries are located.
-
-### Checking Command Existences:
-Once the paths were collected, the next step was to check if a command exists in these directories. This was achieved using the access function with X_OK, which checks if an executable exists at the specified path. My function either returns the path or NULL if no executable is found. If the command starts with "/", it's a relative path, so there's no need to create a path.
-
-### Setting Up a Pipe:
-The next step was to set up a pipe. This is necessary because two child processes cannot communicate directly; they perform their tasks and then exit. To collect the output of one process for use in another, a pipe is created. This pipe allows the processes to communicate by reading from and writing to specific file descriptors (fd).
-
-### Managing File Descriptors:
-After setting up the pipe, the read and write locations are specified. The pipe function requires an int array with two indices, which it fills with valid file descriptors. It's important to check for errors from these system calls, which return -1. One of the main challenges here was avoiding file descriptor leaks, which can be detected using Valgrind with the --track-fds=yes and --trace-children=yes options. To prevent leaks, all unused file descriptors must be closed. Before closing them, the dup2 function is used to copy a file descriptor and replace another one. This effectively replaces STDIN and STDOUT with file descriptors corresponding to indices of our pipe array.
-
-### Executing Commands:
-With the setup complete, the final step is execution. In C, the execve function is used for this purpose. It requires three parameters: the path of the command, the command with its options, and the environment variables. If execve succeeds, it's quite convenient as all memory is automatically freed. However, if it fails, there's no automatic exit, so all memory leaks must be manually handled.
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-* Let's begin with storing the PATH environment variable, which holds all the paths for our commands. The function ft_get_path will traverse the ENV variable (you can type ENV in your terminal to see all of your environment variables) and return a char **. Each index of this array contains a directory where executables might be located.
-```C
-char	**ft_get_path(char **env)
-{
-	char	**path;
-
-	if (!env || !*env)
-		return (NULL);
-	path = NULL;
-	while (*env)
-	{
-		if (ft_strncmp(*env, "PATH=", 5) == 0)
-		{
-			path = ft_split(*env + 5, ':');
-			if (!path)
-				return (NULL);
-			return (path);
-		}
-		env++;
-	}
-	return (NULL);
-}
+./pipex infile cmd1 cmd2 cmd...outfile
 ```
 
-* The function ft_create_path takes our command and tests if it exists in each directory. We use the access function to verify if a command exists. To create a path, the function iterates through the directories obtained from the previous function and concatenates each with "/name_of_command". The X_OK flag is used with access to check if an executable exists at the path. If this function returns NULL, it means it has tried every directory and no matching command was found.
+## Credits
 
-```C
-char	*ft_create_path(char *command, char **envp)
-{
-	char	**path;
-	char	*new_path;
-	int		i;
+- [CodeVault](https://www.youtube.com/c/CodeVault) for his great videos explaining how pipes, fork(), and other functions work.
 
-	if (!envp || !command || !*envp || !*command)
-		return (NULL);
-	i = 0;
-	path = ft_get_path(envp);
-	if (!path)
-		return (NULL);
-	while (path[i])
-	{
-		new_path = ft_strjoin(path[i], "/");
-		new_path = ft_strjoin_and_free(new_path, command);
-		if (access(new_path, X_OK) == 0)
-		{
-			ft_free_split(path);
-			return (new_path);
-		}
-		free(new_path);
-		i++;
-	}
-	ft_free_split(path);
-	return (NULL);
-}
-```
+## Contributing
 
-* For this project, I've coded three functions to execute the first, middle, and last commands. They are quite similar, with the main difference being where they read from and write to.
+To report issues, please create an issue here:  [issue tracker](https://github.com/Vpekdas/pipex/issues).
 
-* The first command needs to create a pipe and read from an input file. We initiate an int array of two and pass it to the pipe function. The input file is opened in the main function, so we can directly use its file descriptor.
-
-* At this point, it's worth discussing the fork function. It creates a child process, which means your program will now run the parent and a separate child process that is a copy of the parent (the main program). All open file descriptors and allocated variables are copied, so modifications in the child won't impact the parent scope. The main idea is to specify where to read and write in the child process, and of course, execute a command in the child. If not, the main program will exit, risking zombie child processes. So, remember that we must create as many child processes as we have commands.
-
-* To give orders to a child process, we store its ID in a variable called pid. If this variable is equal to 0, we are in the child; if not, we are in the parent. In this case, I use fd[0] for reading and fd[1] for writing to the pipe. The first child must read from the input file and write to the pipe. I close fd[0], use dup2 to replace the child's STDIN with the input file, close the input file (since dup2 gave me a copy of its file descriptor), and use dup2 again to substitute its STDOUT with fd[1] (the pipe). The child can now only write to the pipe. The last step is to call execve. Remember that we need to close file descriptors in both the parent and child. The parent's only job is to close unused file descriptors. Then, I return the available index of the pipe for the next commands.
-
-```C
-int	ft_exec_first_cmd(char *av, char **envp, int infile)
-{
-	int	fd[2];
-	int	pid;
-
-	if (pipe(fd) == ERROR)
-		return (ft_perror_msg());
-	if (infile == -1)
-		return (ERROR);
-	pid = fork();
-	if (pid == ERROR)
-		return (ft_perror_msg());
-	if (pid == 0)
-	{
-		close(fd[0]);
-		if (dup2(infile, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg());
-		close(infile);
-		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg());
-		close(fd[1]);
-		if (ft_exec_cmd(av, envp) == ERROR)
-			return (ERROR);
-	}
-	close(fd[1]);
-	close(infile);
-	return (fd[0]);
-}
-
-int	ft_exec_last_cmd(char *av, char **envp, int pipe_in, char *out_path)
-{
-	int	pid;
-	int	outfile;
-
-	outfile = 42;
-	pid = fork();
-	if (pid == ERROR)
-		return (ft_perror_msg());
-	if (pid == 0)
-	{
-		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg());
-		close(pipe_in);
-		outfile = open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (outfile == ERROR)
-			return (ft_perror_msg());
-		if (dup2(outfile, STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg());
-		close(outfile);
-		if (ft_exec_cmd(av, envp) == ERROR)
-			return (ERROR);
-	}
-	close(pipe_in);
-	close(outfile);
-	return (0);
-}
-
-int	ft_exec_middle_cmd(char *av, char **envp, int pipe_in)
-{
-	int	fd[2];
-	int	pid;
-
-	if (pipe(fd) == ERROR)
-		return (ft_perror_msg());
-	pid = fork();
-	if (pid == ERROR)
-		return (ft_perror_msg());
-	if (pid == 0)
-	{
-		close(fd[0]);
-		if (dup2(pipe_in, STDIN_FILENO) == ERROR)
-			return (ft_perror_msg());
-		close(pipe_in);
-		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
-			return (ft_perror_msg());
-		close(fd[1]);
-		if (ft_exec_cmd(av, envp) == ERROR)
-			return (ERROR);
-	}
-	close(pipe_in);
-	close(fd[1]);
-	return (fd[0]);
-}
-```
-* In the main.c file, there's an important aspect I haven't mentioned yet: instructing the parent process to wait until all child processes have finished executing. This is crucial to ensure that the parent doesn't prematurely exit before the children have completed their tasks, which could lead to zombie processes or incomplete execution of commands. The waitpid or wait function is typically used for this purpose in C programming.
-```C
-int	main(int ac, char **av, char **envp)
-{
-	int		infile;
-	int		pipe;
-	int		i;
-
-	i = 1;
-	pipe = 42;
-	if (ac != 5)
-		return (ft_error_msg("Error: expected 4 arguments\n"));
-	infile = open(av[1], O_RDONLY);
-	if (infile == ERROR)
-		ft_error_msg_bash(av[1]);
-	while (++i < ac - 1 && pipe != ERROR)
-	{
-		if (i == 2)
-			pipe = ft_exec_first_cmd(av[i], envp, infile);
-		else
-			pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
-	}
-	while (wait(NULL) > 0)
-		;
-	return (0);
-}
-```
-* When dealing with multiple pipes, the main function remains largely the same as in the mandatory part of the project. The key difference is that we now call the function to execute middle commands.
-
-* So, how do we know which function to call? It's simple. I've created an index i that starts at 1. I know that argv[0] is the program name, argv[1] is the input file name, and from argv[2] onwards, we have commands. So, if i == 2, we call the function to execute the first command.
-
-* In the same vein, the last command is located when i is equal to argc - 2, as the last argument (argv[argc - 1]) is the output file.
-
-* For middle commands, if i is not in the previous if statements, then we know we are dealing with middle commands.
-```
-int	ft_handle_multi_pipe(int ac, char **av, char **envp)
-{
-	int		infile;
-	int		pipe;
-	int		i;
-
-	i = 1;
-	pipe = 42;
-	infile = open(av[1], O_RDONLY);
-	if (infile == ERROR)
-		ft_error_msg_bash(av[1]);
-	while (++i < ac - 1 && pipe != ERROR)
-	{
-		if (i == 2)
-			pipe = ft_exec_first_cmd(av[i], envp, infile);
-		else if (i == ac - 2)
-			pipe = ft_exec_last_cmd(av[i], envp, pipe, av[ac - 1]);
-		else
-			pipe = ft_exec_middle_cmd(av[i], envp, pipe);
-	}
-	while (wait(NULL) > 0)
-		;
-	return (0);
-}
-```
-
-* Here documents (or "here docs") are a feature of Unix shells that allow you to create a string or file from multiple lines of input. In this project, I handle here documents by creating a temporary file and then deleting it with the unlink function.
-
-* I use the get_next_line.c function, passing it fd == 0 so it listens to the user's input. Each time, I compare if the string written is equal to our delimiter. If it's not, the string is written to our temporary file. When I find the delimiter, I close the file and reopen it. This resets the file's index, meaning I will start reading from the start again. I then pass this file as the input file, similar to the mandatory part of the project.
-```C
-void	ft_exec_here_doc(char **av, char **envp, char *out_path, t_here *here)
-{
-	char	*temp;
-	int		pipe;
-	char	*buffer;
-
-	buffer = NULL;
-	write(1, "> ", 2);
-	while (ft_gnl(&temp, 0, buffer))
-	{
-		if (ft_strncmp(temp, here->limiter, ft_strlen(temp) - 1) == 0
-			&& temp[0] != '\n')
-		{
-			ft_free_gnl(temp, buffer);
-			break ;
-		}
-		write(1, "> ", 2);
-		write (here->fd, temp, ft_strlen(temp));
-		ft_free_gnl(temp, buffer);
-	}
-	close(here->fd);
-	here->fd = open("here_doc", O_RDONLY);
-	pipe = ft_exec_first_cmd(av[3], envp, here->fd);
-	pipe = ft_exec_last_cmd(av[4], envp, pipe, out_path);
-	close(here->fd);
-	if (unlink("here_doc") == ERROR)
-		ft_perror_msg();
-}
-```
-
-* In the bonus part of the project, the main function has to handle different modes of operation, such as here documents or multi-pipe. To determine which mode to run, I check the number of arguments and the first argument (argv[1]). Based on these checks, the appropriate mode is selected and the corresponding functions are called to handle the input and execute the commands.
-```C
-int	main(int ac, char **av, char **envp)
-{
-	t_here	here_doc;
-
-	here_doc = (t_here){0};
-	if (ac == 6 && ft_strcmp(av[1], "here_doc") == 0)
-	{
-		here_doc.fd = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (here_doc.fd == ERROR)
-			return (ft_perror_msg());
-		here_doc.limiter = av[2];
-		ft_exec_here_doc(av, envp, av[ac - 1], &here_doc);
-	}
-	else if (ac > 4)
-		return (ft_handle_multi_pipe(ac, av, envp));
-	else
-		return (ft_error_msg("Error: expected 4 arguments\n"));
-	while (wait(NULL) > 0)
-		;
-	return (0);
-}
-```
-
-## Contribution Guidelines
-
-I welcome contributions from everyone. Here are some guidelines to follow:
+To contribute, follow these steps:
 
 1. **Fork the repository**: Start by forking the repository to your own GitHub account.
 
 2. **Clone the repository**: Clone the forked repository to your local machine.
 ```bash
-git clone https://github.com/Vpekdas/Pipex.git
+git clone https://github.com/Vpekdas/pipex
 ```
 
-3. **Create a new branch**: Create a new branch for each feature or bug fix you're working on. Do not make changes directly on the master branch
+3. **Create a new branch**: Create a new branch for each feature or bug fix you're working on.
 ```bash
 git checkout -b your-branch-name
 ```
 
-4. **Make your changes**: Make your changes in the new branch. Ensure your code follows the [norminette](https://github.com/42School/norminette).
-
-5. **Commit your changes**: Commit your changes regularly with clear, descriptive commit messages.
+4. **Commit your changes**: Commit your changes.
 ```bash
 git commit -m "Your commit message"
 ```
 
-6. **Push your changes**: Push your changes to your forked repository on GitHub.
+5. **Push your changes**: Push your changes to your forked repository on GitHub.
 ```bash
 git push origin your-branch-name
 ```
 
-7. **Create a pull request**: Go to your forked repository on GitHub and create a new pull request against the master branch.
-Please note that this project has a code of conduct, and contributors are expected to adhere to it. Any contributions you make are greatly appreciated.
+6. **Create a pull request**: Go to your forked repository on GitHub and create a new pull request against the master branch.
 
-## License Information
+## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-The MIT License is a permissive license that is short and to the point. It lets people do anything they want with your code as long as they provide attribution back to you and don’t hold you liable.
-
-For the full license text, see the [LICENSE](LICENSE) file.
-
-## Contact Information
-
-If you have any questions, issues, or if you want to contribute, feel free to reach out to me:
-
-- GitHub: [@Vpekdas](https://github.com/Vpekdas)
-- Discord: Captain-Plouf#7811
-
-## Project Development
-
-### Development Process
-
-The development of the "pipex" project started with learning about how pipes work through YouTube videos [Code Vault](https://www.youtube.com/c/CodeVault) and reading the manual pages for the functions to be used. Initially, I hardcoded the function to launch two shell commands. Once I understood the pattern, I generalized the function to handle any number of commands. 
-
-### Challenges and Solutions
-
-The main challenges faced during the development of "pipex" were correctly closing file descriptors to prevent leaks and eliminating the "still reachable" issue in my `get_next_line` function. To overcome these challenges, I used Valgrind and learned more about the `fork` function, specifically how a child process receives a copy of its parent's resources and the importance of closing file descriptors in both parent and child processes. For the "still reachable" issue, I recoded the problematic part of the function.
-
-### Tools and Technologies Used
-
-The "pipex" project was developed using C.
-
-### Lessons Learned
-
-The development of "pipex" highlighted the importance of correctly managing file descriptors. Failing to close a file descriptor can lead to leaks and unexpected behavior in certain functions, such as `cat`. I also learned some useful shell testing techniques, such as reading from `/dev/urandom` and using `cat` and `tail` commands to manipulate the output.
-
-### Future Plans
-
-While there are currently no plans to update the "pipex" project, the experience gained from this project was invaluable in the development of a more complex project called "minishell".
-
-### Current Status
-
-The project is currently complete and not in active development. However, maintenance and updates will be done as needed.
-
-### Future Plans
-
-Plans for future development include adding more functions, improving performance, and expanding the documentation.
-
-### Known Issues
-
-There are currently no known issues. If you find a bug, please report it in the [issue tracker](https://github.com/Vpekdas/Pipex/issues).
-
-### Contributing
-
-Contributions are always welcome! See the [Contribution Guidelines](#contribution-guidelines) for more information.
